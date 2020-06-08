@@ -133,6 +133,15 @@ public class RestfulServlet extends RestfulServer {
 		conceptMapResourceProvider.setFhirContext(getFhirContext());
 		providers.add(conceptMapResourceProvider);
 
+		ListResourceProvider listResourceProvider = myAppCtx.getBean(ListResourceProvider.class);
+		providers.add(listResourceProvider);
+		
+		LocationResourceProvider locationResourceProvider = myAppCtx.getBean(LocationResourceProvider.class);
+		providers.add(locationResourceProvider);
+
+		//		BundleResourceProvider bundleResourceProvider = myAppCtx.getBean(BundleResourceProvider.class);
+//		providers.add(bundleResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*

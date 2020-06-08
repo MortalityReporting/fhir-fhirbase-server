@@ -155,13 +155,13 @@ public class OIDCInterceptor extends InterceptorAdapter {
 //			return true;
 //		}
 
+		if ("None".equals(getAuthBasic()) && "None".equals(getAuthBearer())) {
+			// We turned of the authorization.
+			return true;
+		}
+		
 		String authHeader = theRequest.getHeader("Authorization");
 		if (authHeader == null || authHeader.isEmpty() || authHeader.length() < 6) {
-			if ("None".equals(getAuthBasic()) && "None".equals(getAuthBearer())) {
-				// We turned of the authorization.
-				return true;
-			}
-			
 			AuthenticationException ex = new AuthenticationException("No or Invalid Authorization Header");
 			ex.addAuthenticateHeaderForRealm("OmopOnFhir");
 			throw ex;
