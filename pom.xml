@@ -32,7 +32,6 @@
 
 	<properties>
 		<hapi_stable_version>4.2.0</hapi_stable_version>
-		<hapi_current_version>4.2.0-SNAPSHOT</hapi_current_version>
 		<fhir-fhirbase>0.0.1</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->

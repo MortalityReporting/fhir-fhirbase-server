@@ -18,7 +18,7 @@ import ca.uhn.fhir.context.ConfigurationException;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "edu.gatech.chai.omoponfhir.smart.servlet" })
+@ComponentScan(basePackages = { "edu.gatech.chai.fhir.smart.servlet" })
 public class SmartServerConfig implements WebMvcConfigurer {
 	@Bean
 	public ViewResolver viewResolver() {

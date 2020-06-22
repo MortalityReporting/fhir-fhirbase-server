@@ -43,14 +43,14 @@ import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 public class RestfulServlet extends RestfulServer {
 
 	private static final long serialVersionUID = 1L;
+	private static FhirContext myFhirCtx = FhirContext.forR4();
 	private WebApplicationContext myAppCtx;
 
 	/**
 	 * Constructor
 	 */
 	public RestfulServlet() {
-		super(FhirContext.forR4());
-		
+		super(myFhirCtx);
 		myAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
 	}
 
@@ -82,7 +82,7 @@ public class RestfulServlet extends RestfulServer {
 		 * Set non resource provider.
 		 */
 		List<Object> plainProviders = new ArrayList<Object>();
-		SystemTransactionProvider systemTransactionProvider = new SystemTransactionProvider();
+		SystemTransactionProvider systemTransactionProvider = new SystemTransactionProvider(myFhirCtx);
 		ServerOperations serverOperations = new ServerOperations();
 
 		/*
@@ -90,57 +90,59 @@ public class RestfulServlet extends RestfulServer {
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
 
-		ConditionResourceProvider conditionResourceProvider = myAppCtx.getBean(ConditionResourceProvider.class);
+		ConditionResourceProvider conditionResourceProvider = myAppCtx.getBean(ConditionResourceProvider.class, myFhirCtx);
 		providers.add(conditionResourceProvider);
 
-		EncounterResourceProvider encounterResourceProvider = myAppCtx.getBean(EncounterResourceProvider.class);
+		EncounterResourceProvider encounterResourceProvider = myAppCtx.getBean(EncounterResourceProvider.class, myFhirCtx);
 		providers.add(encounterResourceProvider);
 
-		MedicationResourceProvider medicationResourceProvider = myAppCtx.getBean(MedicationResourceProvider.class);
+		MedicationResourceProvider medicationResourceProvider = myAppCtx.getBean(MedicationResourceProvider.class, myFhirCtx);
 		providers.add(medicationResourceProvider);
 
-		MedicationStatementResourceProvider medicationStatementResourceProvider = myAppCtx.getBean(MedicationStatementResourceProvider.class);
+		MedicationStatementResourceProvider medicationStatementResourceProvider = myAppCtx.getBean(MedicationStatementResourceProvider.class, myFhirCtx);
 		providers.add(medicationStatementResourceProvider);
 
-		MedicationRequestResourceProvider medicationRequestResourceProvider = myAppCtx.getBean(MedicationRequestResourceProvider.class);
+		MedicationRequestResourceProvider medicationRequestResourceProvider = myAppCtx.getBean(MedicationRequestResourceProvider.class, myFhirCtx);
 		providers.add(medicationRequestResourceProvider);
 
-		ObservationResourceProvider observationResourceProvider = myAppCtx.getBean(ObservationResourceProvider.class);
+		ObservationResourceProvider observationResourceProvider = myAppCtx.getBean(ObservationResourceProvider.class, myFhirCtx);
 		providers.add(observationResourceProvider);
 
-		OrganizationResourceProvider organizationResourceProvider = myAppCtx.getBean(OrganizationResourceProvider.class);
+		OrganizationResourceProvider organizationResourceProvider = myAppCtx.getBean(OrganizationResourceProvider.class, myFhirCtx);
 		providers.add(organizationResourceProvider);
 
-		PatientResourceProvider patientResourceProvider = myAppCtx.getBean(PatientResourceProvider.class);
+		PatientResourceProvider patientResourceProvider = myAppCtx.getBean(PatientResourceProvider.class, myFhirCtx);
 		providers.add(patientResourceProvider);
 
-		PractitionerResourceProvider practitionerResourceProvider = myAppCtx.getBean(PractitionerResourceProvider.class);
+		PractitionerResourceProvider practitionerResourceProvider = myAppCtx.getBean(PractitionerResourceProvider.class, myFhirCtx);
 		providers.add(practitionerResourceProvider);
 
-		ProcedureResourceProvider procedureResourceProvider = myAppCtx.getBean(ProcedureResourceProvider.class);
+		ProcedureResourceProvider procedureResourceProvider = myAppCtx.getBean(ProcedureResourceProvider.class, myFhirCtx);
 		providers.add(procedureResourceProvider);
 
-		DeviceResourceProvider deviceResourceProvider = myAppCtx.getBean(DeviceResourceProvider.class);
+		DeviceResourceProvider deviceResourceProvider = myAppCtx.getBean(DeviceResourceProvider.class, myFhirCtx);
 		providers.add(deviceResourceProvider);
 
-		DeviceUseStatementResourceProvider deviceUseStatementResourceProvider = myAppCtx.getBean(DeviceUseStatementResourceProvider.class);
+		DeviceUseStatementResourceProvider deviceUseStatementResourceProvider = myAppCtx.getBean(DeviceUseStatementResourceProvider.class, myFhirCtx);
 		providers.add(deviceUseStatementResourceProvider);
 
-		DocumentReferenceResourceProvider documentReferenceResourceProvider = myAppCtx.getBean(DocumentReferenceResourceProvider.class);
+		DocumentReferenceResourceProvider documentReferenceResourceProvider = myAppCtx.getBean(DocumentReferenceResourceProvider.class, myFhirCtx);
 		providers.add(documentReferenceResourceProvider);
 
-		ConceptMapResourceProvider conceptMapResourceProvider = myAppCtx.getBean(ConceptMapResourceProvider.class);
-		conceptMapResourceProvider.setFhirContext(getFhirContext());
+		ConceptMapResourceProvider conceptMapResourceProvider = myAppCtx.getBean(ConceptMapResourceProvider.class, myFhirCtx);
 		providers.add(conceptMapResourceProvider);
 
-		ListResourceProvider listResourceProvider = myAppCtx.getBean(ListResourceProvider.class);
+		ListResourceProvider listResourceProvider = myAppCtx.getBean(ListResourceProvider.class, myFhirCtx);
 		providers.add(listResourceProvider);
 		
-		LocationResourceProvider locationResourceProvider = myAppCtx.getBean(LocationResourceProvider.class);
+		LocationResourceProvider locationResourceProvider = myAppCtx.getBean(LocationResourceProvider.class, myFhirCtx);
 		providers.add(locationResourceProvider);
 
-		//		BundleResourceProvider bundleResourceProvider = myAppCtx.getBean(BundleResourceProvider.class);
-//		providers.add(bundleResourceProvider);
+		RelatedPersonResourceProvider relatedPersonResourceProvider = myAppCtx.getBean(RelatedPersonResourceProvider.class, myFhirCtx);
+		providers.add(relatedPersonResourceProvider);
+
+//		CompositionResourceProvider compositionResourceProvider = myAppCtx.getBean(CompositionResourceProvider.class, myFhirCtx);
+//		providers.add(compositionResourceProvider);
 
 		setResourceProviders(providers);
 
