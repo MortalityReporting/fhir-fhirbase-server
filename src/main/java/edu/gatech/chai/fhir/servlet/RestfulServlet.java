@@ -144,6 +144,9 @@ public class RestfulServlet extends RestfulServer {
 		CompositionResourceProvider compositionResourceProvider = myAppCtx.getBean(CompositionResourceProvider.class, myFhirCtx);
 		providers.add(compositionResourceProvider);
 
+		MessageHeaderResourceProvider messageHeaderResourceProvider = myAppCtx.getBean(MessageHeaderResourceProvider.class, myFhirCtx);
+		providers.add(messageHeaderResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*
