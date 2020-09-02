@@ -83,7 +83,7 @@ public class RestfulServlet extends RestfulServer {
 		 */
 		List<Object> plainProviders = new ArrayList<Object>();
 		SystemTransactionProvider systemTransactionProvider = new SystemTransactionProvider(myFhirCtx);
-		ServerOperations serverOperations = new ServerOperations();
+		ServerOperations serverOperations = new ServerOperations(myFhirCtx);
 
 		/*
 		 * Define resource providers
