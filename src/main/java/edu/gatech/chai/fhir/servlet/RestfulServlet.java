@@ -117,6 +117,9 @@ public class RestfulServlet extends RestfulServer {
 		PractitionerResourceProvider practitionerResourceProvider = myAppCtx.getBean(PractitionerResourceProvider.class, myFhirCtx);
 		providers.add(practitionerResourceProvider);
 
+		PractitionerRoleResourceProvider practitionerRoleResourceProvider = myAppCtx.getBean(PractitionerRoleResourceProvider.class, myFhirCtx);
+		providers.add(practitionerRoleResourceProvider);
+
 		ProcedureResourceProvider procedureResourceProvider = myAppCtx.getBean(ProcedureResourceProvider.class, myFhirCtx);
 		providers.add(procedureResourceProvider);
 
