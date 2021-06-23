@@ -42,7 +42,7 @@
 		<!-- Dependency Versions -->
 		<derby_version>10.14.2.0</derby_version>
 		<jersey_version>2.25.1</jersey_version>
-		<jetty_version>9.4.27.v20200227</jetty_version>
+		<jetty_version>9.4.41.v20210516</jetty_version>
 
 		<hibernate_version>5.4.6.Final</hibernate_version>
 		<hibernate_validator_version>5.4.2.Final</hibernate_validator_version>
