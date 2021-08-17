@@ -150,6 +150,9 @@ public class RestfulServlet extends RestfulServer {
 		MessageHeaderResourceProvider messageHeaderResourceProvider = myAppCtx.getBean(MessageHeaderResourceProvider.class, myFhirCtx);
 		providers.add(messageHeaderResourceProvider);
 
+		ParametersResourceProvider parametersResourceProvider = myAppCtx.getBean(ParametersResourceProvider.class, myFhirCtx);
+		providers.add(parametersResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*

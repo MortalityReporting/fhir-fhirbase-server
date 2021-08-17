@@ -22,7 +22,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hl7.fhir.r4.hapi.rest.server.ServerCapabilityStatementProvider;
+import ca.uhn.fhir.rest.server.provider.ServerCapabilityStatementProvider;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
@@ -60,27 +60,12 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 	String tokenURIvalue = "http://localhost:8080/token";
 
 	public SMARTonFHIRConformanceStatement(RestfulServer theRestfulServer) {
-//		super(theRestfulServer);
-//		setCache(false);
-
-//		try {
-//			InetAddress addr = java.net.InetAddress.getLocalHost();
-//			System.out.println(addr);
-//			String hostname = addr.getCanonicalHostName();
-//			System.out.println("Hostname of system = " + hostname);
-//
-//			// authorizeURIvalue = "http://"+hostname+":9085/authorize";
-//			// tokenURIvalue = "http://"+hostname+":9085/token";
-//			// registerURIvalue = "http://"+hostname+":9085/register";
-//		} catch (UnknownHostException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		super(theRestfulServer);
 	}
 
 	@Override
 	public CapabilityStatement getServerConformance(HttpServletRequest theRequest, RequestDetails theRequestDetails) {
-		CapabilityStatement conformanceStatement = super.getServerConformance(theRequest, theRequestDetails);
+		CapabilityStatement conformanceStatement = (CapabilityStatement) super.getServerConformance(theRequest, theRequestDetails);
 
 		Map<String, Long> counts = ExtensionUtil.getResourceCounts();
 
