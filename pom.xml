@@ -16,7 +16,7 @@
 	<groupId>edu.gatech.chai</groupId>
 	<artifactId>fhir-fhirbase-server</artifactId>
 	<packaging>war</packaging>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 
 	<name>RESTful Server for FHIRBase</name>
 
@@ -32,7 +32,7 @@
 
 	<properties>
 		<hapi_stable_version>5.4.2</hapi_stable_version>
-		<fhir-fhirbase>1.2.0</fhir-fhirbase>
+		<fhir-fhirbase>1.3.0</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -58,10 +58,10 @@
 		<phloc_schematron_version>5.2.0</phloc_schematron_version>
 		<phloc_commons_version>9.3.8</phloc_commons_version>
 
-		<spring_version>5.3.7</spring_version>
+		<spring_version>5.3.14</spring_version>
 		<spring_data_version>2.5.0</spring_data_version>
 
-		<thymeleaf-version>3.0.11.RELEASE</thymeleaf-version>
+		<thymeleaf-version>3.0.14.RELEASE</thymeleaf-version>
 
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<ebay_cors_filter_version>1.0.1</ebay_cors_filter_version>
@@ -294,7 +294,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-ui</artifactId>
-			<version>1.12.1</version>
+			<version>1.13.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-ui-themes -->

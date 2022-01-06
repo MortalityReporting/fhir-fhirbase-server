@@ -153,6 +153,12 @@ public class RestfulServlet extends RestfulServer {
 		ParametersResourceProvider parametersResourceProvider = myAppCtx.getBean(ParametersResourceProvider.class, myFhirCtx);
 		providers.add(parametersResourceProvider);
 
+		DiagnosticReportResourceProvider diagnosticReportResourceProvider = myAppCtx.getBean(DiagnosticReportResourceProvider.class, myFhirCtx);
+		providers.add(diagnosticReportResourceProvider);
+
+		SpecimenResourceProvider specimenResourceProvider = myAppCtx.getBean(SpecimenResourceProvider.class, myFhirCtx);
+		providers.add(specimenResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*
