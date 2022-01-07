@@ -159,6 +159,9 @@ public class RestfulServlet extends RestfulServer {
 		SpecimenResourceProvider specimenResourceProvider = myAppCtx.getBean(SpecimenResourceProvider.class, myFhirCtx);
 		providers.add(specimenResourceProvider);
 
+		BinaryResourceProvider binaryResourceProvider = myAppCtx.getBean(BinaryResourceProvider.class, myFhirCtx);
+		providers.add(binaryResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*
