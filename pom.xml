@@ -58,7 +58,7 @@
 		<phloc_schematron_version>5.2.0</phloc_schematron_version>
 		<phloc_commons_version>9.3.8</phloc_commons_version>
 
-		<spring_version>5.3.14</spring_version>
+		<spring_version>5.3.20</spring_version>
 		<spring_data_version>2.5.0</spring_data_version>
 
 		<thymeleaf-version>3.0.14.RELEASE</thymeleaf-version>
