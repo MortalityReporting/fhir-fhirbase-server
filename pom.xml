@@ -31,8 +31,8 @@
 	</repositories>
 
 	<properties>
-		<hapi_stable_version>5.4.2</hapi_stable_version>
-		<fhir-fhirbase>1.3.0</fhir-fhirbase>
+		<hapi_stable_version>6.1.2</hapi_stable_version>
+		<fhir-fhirbase>1.5.0</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -58,7 +58,7 @@
 		<phloc_schematron_version>5.2.0</phloc_schematron_version>
 		<phloc_commons_version>9.3.8</phloc_commons_version>
 
-		<spring_version>5.3.14</spring_version>
+		<spring_version>5.3.23</spring_version>
 		<spring_data_version>2.5.0</spring_data_version>
 
 		<thymeleaf-version>3.0.14.RELEASE</thymeleaf-version>
@@ -239,7 +239,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.23.jre7</version>
+			<version>42.5.0</version>
 		</dependency>
 
 		<dependency>
@@ -288,7 +288,7 @@
 		<dependency>
 			<groupId>org.webjars.bower</groupId>
 			<artifactId>moment</artifactId>
-			<version>2.29.1</version>
+			<version>2.29.3</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.webjars/jquery-ui -->
 		<dependency>
@@ -325,7 +325,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.12.4</version>
+			<version>2.14.0-rc2</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
