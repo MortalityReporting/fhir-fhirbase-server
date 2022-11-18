@@ -507,6 +507,11 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>10.0.11</version>
+			</plugin>
 		</plugins>
 	</build>
 
