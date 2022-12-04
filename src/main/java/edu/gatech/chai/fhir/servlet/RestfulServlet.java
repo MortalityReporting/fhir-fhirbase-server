@@ -90,6 +90,9 @@ public class RestfulServlet extends RestfulServer {
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
 
+		BundleResourceProvider bundleResourceProvider = myAppCtx.getBean(BundleResourceProvider.class, myFhirCtx);
+		providers.add(bundleResourceProvider);
+
 		ConditionResourceProvider conditionResourceProvider = myAppCtx.getBean(ConditionResourceProvider.class, myFhirCtx);
 		providers.add(conditionResourceProvider);
 
