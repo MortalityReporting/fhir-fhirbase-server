@@ -34,9 +34,11 @@ import org.hl7.fhir.r4.model.OperationDefinition.OperationDefinitionParameterCom
 import org.hl7.fhir.r4.model.OperationDefinition.OperationParameterUse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.OperationDefinition;
+import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.UriType;
 
 import ca.uhn.fhir.rest.annotation.IdParam;
@@ -44,6 +46,7 @@ import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
+import edu.gatech.chai.fhironfhirbase.provider.PatientResourceProvider;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
 /**
@@ -154,13 +157,13 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		if (op instanceof OperationDefinition) {
 			OperationDefinition od = (OperationDefinition) op;
 			for (OperationDefinitionParameterComponent parameter : od.getParameter()) {
-				if ("patient".equals(parameter.getName())) {
+				if (Composition.SP_PATIENT.equals(parameter.getName())) {
 					String nullString = null;
 					parameter.setType(nullString);
 					parameter.setMax("*");
 
 					OperationDefinitionParameterComponent partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName("birthday")
+					partParameter.setName(Patient.SP_BIRTHDATE)
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
@@ -168,7 +171,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName("family")
+					partParameter.setName(Patient.SP_FAMILY)
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
@@ -176,7 +179,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName("given")
+					partParameter.setName(Patient.SP_GIVEN)
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
@@ -184,7 +187,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName("gender")
+					partParameter.setName(Patient.SP_GENDER)
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
