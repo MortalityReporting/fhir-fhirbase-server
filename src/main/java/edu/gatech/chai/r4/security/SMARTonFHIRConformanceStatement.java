@@ -23,16 +23,24 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ca.uhn.fhir.rest.server.provider.ServerCapabilityStatementProvider;
+
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.OperationDefinition.OperationDefinitionParameterComponent;
+import org.hl7.fhir.r4.model.OperationDefinition.OperationParameterUse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.OperationDefinition;
 import org.hl7.fhir.r4.model.UriType;
 
+import ca.uhn.fhir.rest.annotation.IdParam;
+import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
@@ -136,5 +144,56 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 
 	public void setTokenServerUrl(String url) {
 		tokenURIvalue = url;
+	}
+
+	@Override
+	@Read(typeName = "OperationDefinition")
+	public IBaseResource readOperationDefinition(@IdParam IIdType theId, RequestDetails theRequestDetails) {
+		IBaseResource op = super.readOperationDefinition(theId, theRequestDetails);
+
+		if (op instanceof OperationDefinition) {
+			OperationDefinition od = (OperationDefinition) op;
+			for (OperationDefinitionParameterComponent parameter : od.getParameter()) {
+				if ("patient".equals(parameter.getName())) {
+					String nullString = null;
+					parameter.setType(nullString);
+					parameter.setMax("*");
+
+					OperationDefinitionParameterComponent partParameter = new OperationDefinitionParameterComponent();
+					partParameter.setName("birthday")
+						.setUse(OperationParameterUse.IN)
+						.setMin(0)
+						.setMax("1")
+						.setType("string");
+					parameter.addPart(partParameter);
+
+					partParameter = new OperationDefinitionParameterComponent();
+					partParameter.setName("family")
+						.setUse(OperationParameterUse.IN)
+						.setMin(0)
+						.setMax("1")
+						.setType("string");
+					parameter.addPart(partParameter);
+
+					partParameter = new OperationDefinitionParameterComponent();
+					partParameter.setName("given")
+						.setUse(OperationParameterUse.IN)
+						.setMin(0)
+						.setMax("1")
+						.setType("string");
+					parameter.addPart(partParameter);
+
+					partParameter = new OperationDefinitionParameterComponent();
+					partParameter.setName("gender")
+						.setUse(OperationParameterUse.IN)
+						.setMin(0)
+						.setMax("1")
+						.setType("string");
+					parameter.addPart(partParameter);
+				}
+			}
+		}
+
+		return op;
 	}
 }
