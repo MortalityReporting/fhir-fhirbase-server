@@ -39,6 +39,7 @@ import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.OperationDefinition;
 import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.UriType;
 
 import ca.uhn.fhir.rest.annotation.IdParam;
@@ -46,7 +47,6 @@ import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
-import edu.gatech.chai.fhironfhirbase.provider.PatientResourceProvider;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
 /**
@@ -149,6 +149,15 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		tokenURIvalue = url;
 	}
 
+	private Extension extensionLable(String label) {
+		Extension extensionLabel = new Extension();
+
+		extensionLabel.setUrl("urn:gtri:mapi-label");
+		extensionLabel.setValue(new StringType(label));
+
+		return extensionLabel;
+	}
+
 	@Override
 	@Read(typeName = "OperationDefinition")
 	public IBaseResource readOperationDefinition(@IdParam IIdType theId, RequestDetails theRequestDetails) {
@@ -167,7 +176,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
-						.setType("string");
+						.setType("string")
+						.addExtension(extensionLable("Birthdate"));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -175,7 +185,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
-						.setType("string");
+						.setType("string")
+						.addExtension(extensionLable("Family Name"));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -183,7 +194,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
-						.setType("string");
+						.setType("string")
+						.addExtension(extensionLable("Given Name"));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -191,8 +203,21 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setUse(OperationParameterUse.IN)
 						.setMin(0)
 						.setMax("1")
-						.setType("string");
+						.setType("string")
+						.addExtension(extensionLable("Gender"));
 					parameter.addPart(partParameter);
+				} else if ("edrs-file-number".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("EDRS File Number"));
+				} else if ("mdi-case-number".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("MDI Case Number"));
+				} else if ("death-location".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("Death Location"));
+				} else if ("death-date-presumed".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("Presumed Death Date"));
+				} else if ("death-date-pronounced".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("Pronounced Death Date"));
+				} else if ("death-date".equals(parameter.getName())) {
+					parameter.addExtension(extensionLable("Death Date"));
 				}
 			}
 		}
