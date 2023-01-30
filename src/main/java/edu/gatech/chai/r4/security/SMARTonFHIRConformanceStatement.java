@@ -37,6 +37,7 @@ import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.IntegerType;
 import org.hl7.fhir.r4.model.OperationDefinition;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
@@ -149,11 +150,15 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		tokenURIvalue = url;
 	}
 
-	private Extension extensionLable(String label) {
+	private Extension myExtension(String url, Object value) {
 		Extension extensionLabel = new Extension();
 
-		extensionLabel.setUrl("urn:gtri:mapi-label");
-		extensionLabel.setValue(new StringType(label));
+		extensionLabel.setUrl(url);
+		if (value instanceof Integer) {
+			extensionLabel.setValue(new IntegerType((Integer)value));
+		} else {
+			extensionLabel.setValue(new StringType((String)value));
+		}
 
 		return extensionLabel;
 	}
@@ -177,7 +182,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
-						.addExtension(extensionLable("Birthdate"));
+						.addExtension(myExtension("urn:gtri:mapi-label", "Birthdate"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(3)));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -186,7 +192,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
-						.addExtension(extensionLable("Family Name"));
+						.addExtension(myExtension("urn:gtri:mapi-label", "Family Name"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(0)));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -195,7 +202,8 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
-						.addExtension(extensionLable("Given Name"));
+						.addExtension(myExtension("urn:gtri:mapi-label", "Given Name"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(1)));
 					parameter.addPart(partParameter);
 
 					partParameter = new OperationDefinitionParameterComponent();
@@ -204,20 +212,27 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
-						.addExtension(extensionLable("Gender"));
+						.addExtension(myExtension("urn:gtri:mapi-label", "Gender"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(2)));
 					parameter.addPart(partParameter);
 				} else if ("edrs-file-number".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("EDRS File Number"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "EDRS File Number"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(9)));
 				} else if ("mdi-case-number".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("MDI Case Number"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "MDI Case Number"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(8)));
 				} else if ("death-location".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("Death Location"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Location"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(4)));
 				} else if ("death-date-presumed".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("Presumed Death Date"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Presumed Death Date"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(6)));
 				} else if ("death-date-pronounced".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("Pronounced Death Date"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Pronounced Death Date"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(7)));
 				} else if ("death-date".equals(parameter.getName())) {
-					parameter.addExtension(extensionLable("Death Date"));
+					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Date"))
+						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(5)));
 				}
 			}
 		}
