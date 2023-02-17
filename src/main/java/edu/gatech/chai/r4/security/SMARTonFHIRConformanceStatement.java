@@ -30,6 +30,7 @@ import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.OperationDefinition.OperationDefinitionParameterComponent;
 import org.hl7.fhir.r4.model.OperationDefinition.OperationParameterUse;
 import org.hl7.fhir.r4.model.CodeableConcept;
@@ -182,6 +183,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
+						.setSearchType(SearchParamType.DATE)
 						.addExtension(myExtension("urn:gtri:mapi-label", "Birthdate"))
 						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(3)));
 					parameter.addPart(partParameter);
@@ -192,6 +194,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
+						.setSearchType(SearchParamType.STRING)
 						.addExtension(myExtension("urn:gtri:mapi-label", "Family Name"))
 						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(0)));
 					parameter.addPart(partParameter);
@@ -202,6 +205,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
+						.setSearchType(SearchParamType.STRING)
 						.addExtension(myExtension("urn:gtri:mapi-label", "Given Name"))
 						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(1)));
 					parameter.addPart(partParameter);
@@ -212,6 +216,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 						.setMin(0)
 						.setMax("1")
 						.setType("string")
+						.setSearchType(SearchParamType.TOKEN)
 						.addExtension(myExtension("urn:gtri:mapi-label", "Gender"))
 						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(2)));
 					parameter.addPart(partParameter);
