@@ -28,7 +28,6 @@ import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import ca.uhn.fhir.rest.server.exceptions.MethodNotAllowedException;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
-import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor.ActionRequestDetails;
 
 /**
  * @author MC142
@@ -233,11 +232,10 @@ public class OIDCInterceptor extends InterceptorAdapter {
 	}
 
 	@Override
-	public void incomingRequestPreHandled(RestOperationTypeEnum theOperation,
-			ActionRequestDetails theProcessedRequest) {
+	public void incomingRequestPreHandled(RestOperationTypeEnum theOperation, RequestDetails theProcessedRequest) {
 		
 		ourLog.debug("Request is parsed. Now in pre handled interceptor");
-		RequestDetails requestDetails = theProcessedRequest.getRequestDetails();
+		RequestDetails requestDetails = theProcessedRequest;
 
 		Authorization myAuth = (Authorization) requestDetails.getAttribute(OIDCInterceptor.authKeyName);
 		if (myAuth != null) {
