@@ -32,7 +32,7 @@
 
 	<properties>
 		<hapi_stable_version>6.4.1</hapi_stable_version>
-		<fhir-fhirbase>1.7.2</fhir-fhirbase>
+		<fhir-fhirbase>1.8.0</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
