@@ -25,7 +25,7 @@
     	<property name="poolName" value="springHikariCP" />
 	    <property name="connectionTestQuery" value="SELECT 1" />
       	<property name="dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource" />  
-    	<property name="maximumPoolSize" value="10" />
+    	<property name="maximumPoolSize" value="5" />
 	    <property name="idleTimeout" value="30000" />
     	<property name="dataSourceProperties" >
         	<props>
