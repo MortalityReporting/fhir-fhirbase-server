@@ -165,6 +165,18 @@ public class RestfulServlet extends RestfulServer {
 		BinaryResourceProvider binaryResourceProvider = myAppCtx.getBean(BinaryResourceProvider.class, myFhirCtx);
 		providers.add(binaryResourceProvider);
 
+		QuestionnaireResourceProvider questionnaireResourceProvider = myAppCtx.getBean(QuestionnaireResourceProvider.class, myFhirCtx);
+		providers.add(questionnaireResourceProvider);
+
+		QuestionnaireResponseResourceProvider questionnaireResponseResourceProvider = myAppCtx.getBean(QuestionnaireResponseResourceProvider.class, myFhirCtx);
+		providers.add(questionnaireResponseResourceProvider);
+
+		CodeSystemResourceProvider codeSystemResourceProvider = myAppCtx.getBean(CodeSystemResourceProvider.class, myFhirCtx);
+		providers.add(codeSystemResourceProvider);
+
+		ValueSetResourceProvider valueSetResourceProvider = myAppCtx.getBean(ValueSetResourceProvider.class, myFhirCtx);
+		providers.add(valueSetResourceProvider);
+
 		setResourceProviders(providers);
 
 		/*
