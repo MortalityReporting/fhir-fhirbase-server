@@ -18,6 +18,7 @@ package edu.gatech.chai.fhir.servlet;
 import java.util.*;
 
 import edu.gatech.chai.fhir.security.OIDCInterceptor;
+import edu.gatech.chai.fhironfhirbase.model.USCorePatient;
 import edu.gatech.chai.fhironfhirbase.provider.*;
 import edu.gatech.chai.r4.security.SMARTonFHIRConformanceStatement;
 
@@ -51,6 +52,8 @@ public class RestfulServlet extends RestfulServer {
 	 */
 	public RestfulServlet() {
 		super(myFhirCtx);
+		myFhirCtx.setDefaultTypeForProfile("http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient", USCorePatient.class);
+		myFhirCtx.getParserOptions().setOverrideResourceIdWithBundleEntryFullUrl(false); //IPS Specific behavior to persist contained resources correctly
 		myAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
 	}
 
@@ -62,7 +65,7 @@ public class RestfulServlet extends RestfulServer {
 		// Set server name
 		setServerName("Raven FHIR Server (R4)");
 
-		// If we have system environment variable to hardcode the base URL, do it now.
+		// If we have system environment variable to hardcode the base URL, use it now.
 		String serverBaseUrl = System.getenv("SERVERBASE_URL");
 		if (serverBaseUrl != null && !serverBaseUrl.isEmpty() && !serverBaseUrl.trim().equalsIgnoreCase("")) {
 			serverBaseUrl = serverBaseUrl.trim();
@@ -82,17 +85,19 @@ public class RestfulServlet extends RestfulServer {
 		 * Set non resource provider.
 		 */
 		List<Object> plainProviders = new ArrayList<Object>();
-		SystemTransactionProvider systemTransactionProvider = new SystemTransactionProvider(myFhirCtx);
-		ServerOperations serverOperations = new ServerOperations(myFhirCtx);
 
 		/*
 		 * Define resource providers
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
 
-		BundleResourceProvider bundleResourceProvider = myAppCtx.getBean(BundleResourceProvider.class, myFhirCtx);
-		providers.add(bundleResourceProvider);
-
+		//"Basic" providers without the dependencies connected
+		IPSBundlePlainProvider bundlePlainProvider = myAppCtx.getBean(IPSBundlePlainProvider.class, myFhirCtx);
+		plainProviders.add(bundlePlainProvider);
+		PatientResourceProvider patientResourceProvider = myAppCtx.getBean(PatientResourceProvider.class, myFhirCtx);
+		providers.add(patientResourceProvider);
+		
+		/*
 		ConditionResourceProvider conditionResourceProvider = myAppCtx.getBean(ConditionResourceProvider.class, myFhirCtx);
 		providers.add(conditionResourceProvider);
 
@@ -113,9 +118,6 @@ public class RestfulServlet extends RestfulServer {
 
 		OrganizationResourceProvider organizationResourceProvider = myAppCtx.getBean(OrganizationResourceProvider.class, myFhirCtx);
 		providers.add(organizationResourceProvider);
-
-		PatientResourceProvider patientResourceProvider = myAppCtx.getBean(PatientResourceProvider.class, myFhirCtx);
-		providers.add(patientResourceProvider);
 
 		PractitionerResourceProvider practitionerResourceProvider = myAppCtx.getBean(PractitionerResourceProvider.class, myFhirCtx);
 		providers.add(practitionerResourceProvider);
@@ -164,16 +166,13 @@ public class RestfulServlet extends RestfulServer {
 
 		BinaryResourceProvider binaryResourceProvider = myAppCtx.getBean(BinaryResourceProvider.class, myFhirCtx);
 		providers.add(binaryResourceProvider);
-
-		setResourceProviders(providers);
-
-		/*
-		 * add system transaction provider to the plain provider.
-		 */
+		
+		* add system transaction provider to the plain provider.
 		plainProviders.add(systemTransactionProvider);
 		plainProviders.add(serverOperations);
-
+		*/
 //		setPlainProviders(plainProviders);
+		setResourceProviders(providers);
 		registerProviders(plainProviders);
 		/*
 		 * Set conformance provider
