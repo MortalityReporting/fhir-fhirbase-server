@@ -65,7 +65,7 @@ public class OIDCInterceptor extends InterceptorAdapter {
 		if (authBasicEnv != null && !authBasicEnv.isEmpty()) {
 			setAuthBasic(authBasicEnv);
 		} else {
-			setAuthBasic("client_omop:secret");
+			setAuthBasic("client:secret");
 		}
 
 		String authBearerEnv = System.getenv("AUTH_BEARER");
@@ -155,7 +155,7 @@ public class OIDCInterceptor extends InterceptorAdapter {
 //		}
 
 		if ("None".equals(getAuthBasic()) && "None".equals(getAuthBearer())) {
-			// We turned of the authorization.
+			// We turned off the authorization.
 			return true;
 		}
 		
