@@ -23,7 +23,12 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] %msg%n</pattern>
         </encoder>
     </appender>
- 
+
+    <logger name="org.thymeleaf" level="INFO"/>
+    <logger name="org.thymeleaf.TemplateEngine.CONFIG" level="INFO"/>
+    <logger name="org.thymeleaf.TemplateEngine.TIMER" level="INFO"/>
+    <logger name="org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE" level="INFO"/>
+
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>

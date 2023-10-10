@@ -171,73 +171,69 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 
 		if (op instanceof OperationDefinition) {
 			OperationDefinition od = (OperationDefinition) op;
-			for (OperationDefinitionParameterComponent parameter : od.getParameter()) {
-				if (Composition.SP_PATIENT.equals(parameter.getName())) {
-					String nullString = null;
-					parameter.setType(nullString);
-					parameter.setMax("*");
+			if ("Document".equalsIgnoreCase(od.getName())) {
+				for (OperationDefinitionParameterComponent parameter : od.getParameter()) {
+					if (Composition.SP_PATIENT.equals(parameter.getName())) {
+						String nullString = null;
+						parameter.setType(nullString);
+						parameter.setMax("*");
 
-					OperationDefinitionParameterComponent partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName(Patient.SP_BIRTHDATE)
-						.setUse(OperationParameterUse.IN)
-						.setMin(0)
-						.setMax("1")
-						.setType("string")
-						.setSearchType(SearchParamType.DATE)
-						.addExtension(myExtension("urn:gtri:mapi-label", "Birthdate"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(3)));
-					parameter.addPart(partParameter);
+						OperationDefinitionParameterComponent partParameter = new OperationDefinitionParameterComponent();
+						partParameter.setName(Patient.SP_BIRTHDATE)
+							.setUse(OperationParameterUse.IN)
+							.setMin(0)
+							.setMax("1")
+							.setType("string")
+							.setSearchType(SearchParamType.DATE)
+							.addExtension(myExtension("urn:gtri:mapi-label", "Birthdate"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(3)));
+						parameter.addPart(partParameter);
 
-					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName(Patient.SP_FAMILY)
-						.setUse(OperationParameterUse.IN)
-						.setMin(0)
-						.setMax("1")
-						.setType("string")
-						.setSearchType(SearchParamType.STRING)
-						.addExtension(myExtension("urn:gtri:mapi-label", "Family Name"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(0)));
-					parameter.addPart(partParameter);
+						partParameter = new OperationDefinitionParameterComponent();
+						partParameter.setName(Patient.SP_FAMILY)
+							.setUse(OperationParameterUse.IN)
+							.setMin(0)
+							.setMax("1")
+							.setType("string")
+							.setSearchType(SearchParamType.STRING)
+							.addExtension(myExtension("urn:gtri:mapi-label", "Family Name"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(0)));
+						parameter.addPart(partParameter);
 
-					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName(Patient.SP_GIVEN)
-						.setUse(OperationParameterUse.IN)
-						.setMin(0)
-						.setMax("1")
-						.setType("string")
-						.setSearchType(SearchParamType.STRING)
-						.addExtension(myExtension("urn:gtri:mapi-label", "Given Name"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(1)));
-					parameter.addPart(partParameter);
+						partParameter = new OperationDefinitionParameterComponent();
+						partParameter.setName(Patient.SP_GIVEN)
+							.setUse(OperationParameterUse.IN)
+							.setMin(0)
+							.setMax("1")
+							.setType("string")
+							.setSearchType(SearchParamType.STRING)
+							.addExtension(myExtension("urn:gtri:mapi-label", "Given Name"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(1)));
+						parameter.addPart(partParameter);
 
-					partParameter = new OperationDefinitionParameterComponent();
-					partParameter.setName(Patient.SP_GENDER)
-						.setUse(OperationParameterUse.IN)
-						.setMin(0)
-						.setMax("1")
-						.setType("string")
-						.setSearchType(SearchParamType.TOKEN)
-						.addExtension(myExtension("urn:gtri:mapi-label", "Gender"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(2)));
-					parameter.addPart(partParameter);
-				} else if ("edrs-file-number".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "EDRS File Number"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(9)));
-				} else if ("mdi-case-number".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "MDI Case Number"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(8)));
-				} else if ("death-location".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Location"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(4)));
-				} else if ("death-date-presumed".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Presumed Death Date"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(6)));
-				} else if ("death-date-pronounced".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Pronounced Death Date"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(7)));
-				} else if ("death-date".equals(parameter.getName())) {
-					parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Date"))
-						.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(5)));
+						partParameter = new OperationDefinitionParameterComponent();
+						partParameter.setName(Patient.SP_GENDER)
+							.setUse(OperationParameterUse.IN)
+							.setMin(0)
+							.setMax("1")
+							.setType("string")
+							.setSearchType(SearchParamType.TOKEN)
+							.addExtension(myExtension("urn:gtri:mapi-label", "Gender"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(2)));
+						parameter.addPart(partParameter);
+					} else if ("tracking-number".equals(parameter.getName())) {
+						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Tracking Number"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(7)));
+					} else if ("death-location".equals(parameter.getName())) {
+						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Location"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(4)));
+					} else if ("death-date-pronounced".equals(parameter.getName())) {
+						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Pronounced Death Date"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(6)));
+					} else if ("death-date".equals(parameter.getName())) {
+						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Date"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(5)));
+					}
 				}
 			}
 		}

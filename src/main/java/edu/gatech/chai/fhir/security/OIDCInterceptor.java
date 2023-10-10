@@ -162,7 +162,7 @@ public class OIDCInterceptor extends InterceptorAdapter {
 		String authHeader = theRequest.getHeader("Authorization");
 		if (authHeader == null || authHeader.isEmpty() || authHeader.length() < 6) {
 			AuthenticationException ex = new AuthenticationException("No or Invalid Authorization Header");
-			ex.addAuthenticateHeaderForRealm("OmopOnFhir");
+			ex.addAuthenticateHeaderForRealm("HAPIFHIRonFhirbase");
 			throw ex;
 		}
 
@@ -192,28 +192,31 @@ public class OIDCInterceptor extends InterceptorAdapter {
 			ex.addAuthenticateHeaderForRealm("OmopOnFhir");
 			throw ex;
 		} else if ("bearer".equalsIgnoreCase(prefix)) {
-			// checking Auth
-			ourLog.debug("IntrospectURL:" + getIntrospectUrl() + " with Basic " + getAuthBasic());
-			Authorization myAuth = new Authorization(getIntrospectUrl(), getAuthBasic());
+			String authType = System.getenv("Auth_Provider");
+			if (authType == null || authType.isEmpty() || "SMARTonFHIR".equalsIgnoreCase(authType)) {
+				// checking Auth
+				ourLog.debug("IntrospectURL:" + getIntrospectUrl() + " with Basic " + getAuthBasic());
+				Authorization myAuth = new Authorization(getIntrospectUrl(), getAuthBasic());
 
-			String err_msg = myAuth.introspectToken(theRequest);
-			if (err_msg.isEmpty() == false) {
-				ourLog.debug("IntrospectToken failed with "+err_msg);
-				throw new AuthenticationException(err_msg);
+				String err_msg = myAuth.introspectToken(theRequest);
+				if (err_msg.isEmpty() == false) {
+					ourLog.debug("IntrospectToken failed with "+err_msg);
+					throw new AuthenticationException(err_msg);
+				}
+
+				// Now we have a valid access token. Now, check Token type
+				if (myAuth.checkBearer() == false) {
+					ourLog.debug("IntrospectToken failed. Not Token Bearer");
+					throw new AuthenticationException("Not Token Bearer");
+				}
+
+				// Check scope.
+				// Fine grain checking should be done after request is parsed. Save
+				// this auth to smartOnFhir attribute.
+				ourLog.debug("Adding auth object to RequestDetails attribute");
+				theRequestDetails.setAttribute(OIDCInterceptor.authKeyName, myAuth);
 			}
-
-			// Now we have a valid access token. Now, check Token type
-			if (myAuth.checkBearer() == false) {
-				ourLog.debug("IntrospectToken failed. Not Token Bearer");
-				throw new AuthenticationException("Not Token Bearer");
-			}
-
-			// Check scope.
-			// Fine grain checking should be done after request is parsed. Save
-			// this auth to smartOnFhir attribute.
-			ourLog.debug("Adding auth object to RequestDetails attribute");
-			theRequestDetails.setAttribute(OIDCInterceptor.authKeyName, myAuth);
-
+			
 			return true;
 //			return myAuth.allowRequest(theRequestDetails);				
 		} else {
