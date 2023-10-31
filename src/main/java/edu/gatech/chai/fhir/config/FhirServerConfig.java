@@ -38,7 +38,8 @@ import edu.gatech.chai.fhironfhirbase.database.DatabaseConfigurationImpl;
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.database"),
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.provider"),
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.operation"),
-		@ComponentScan("edu.gatech.chai.fhir.smart.dao") })
+		@ComponentScan("edu.gatech.chai.fhir.smart.dao"),
+		@ComponentScan("edu.gatech.chai.fhir.config") })
 @ImportResource({ "classpath:database-config.xml" })
 public class FhirServerConfig {
 	@Autowired

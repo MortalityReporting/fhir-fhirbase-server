@@ -58,8 +58,6 @@ public class Authorization {
 	private String url;
 	private String authBasic;
 	private String token;
-//	private String userId;
-//	private String password;
 	private String token_type;
 	private String patient;
 	private int myTimeSkewAllowance = 300;
@@ -70,7 +68,7 @@ public class Authorization {
 
 	public Authorization(String url) {
 		this.url = url;
-		setAuthBasic("client_omop:secret");
+		setAuthBasic("client:secret");
 	}
 
 	public Authorization(String url, String authBasic) {
@@ -86,6 +84,14 @@ public class Authorization {
 		this.authBasic = authBasic;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	private HttpHeaders createHeaders() {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		byte[] encodedAuth = Base64.encodeBase64(authBasic.getBytes(Charset.forName("US-ASCII")));

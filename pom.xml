@@ -31,8 +31,8 @@
 	</repositories>
 
 	<properties>
-		<hapi_stable_version>6.4.1</hapi_stable_version>
-		<fhir-fhirbase>1.11.0</fhir-fhirbase>
+		<hapi_stable_version>6.8.2</hapi_stable_version>
+		<fhir-fhirbase>1.11.1</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -42,26 +42,23 @@
 		<!-- Dependency Versions -->
 		<derby_version>10.14.2.0</derby_version>
 		<jersey_version>2.25.1</jersey_version>
-		<jetty_version>9.4.43.v20210629</jetty_version>
+		<jetty_version>9.4.49.v20220914</jetty_version>
 
-		<jackson_version>2.14.2</jackson_version>
-		<jackson_databind_version>2.10.0</jackson_databind_version>
+		<jackson_version>2.15.2</jackson_version>
 		<jaxb_api_version>2.3.1</jaxb_api_version>
 		<lucene_version>5.5.5</lucene_version>
-		<maven_assembly_plugin_version>3.1.0</maven_assembly_plugin_version>
+		<maven_assembly_plugin_version>3.3.0</maven_assembly_plugin_version>
 		<maven_license_plugin_version>1.8</maven_license_plugin_version>
-		<phloc_schematron_version>5.2.0</phloc_schematron_version>
-		<phloc_commons_version>9.3.8</phloc_commons_version>
 
-		<spring_version>5.3.23</spring_version>
-		<spring_data_version>2.5.0</spring_data_version>
+		<spring_version>5.3.27</spring_version>
+		<spring_data_version>2.2.0.RELEASE</spring_data_version>
 
-		<thymeleaf-version>3.0.14.RELEASE</thymeleaf-version>
+		<thymeleaf-version>3.1.2.RELEASE</thymeleaf-version>
 
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<ebay_cors_filter_version>1.0.1</ebay_cors_filter_version>
 
-		<ucum_version>1.0.3</ucum_version>
+		<ucum_version>1.0.8</ucum_version>
 	</properties>
 
 	<dependencies>
@@ -99,6 +96,19 @@
 				<groupId>ca.uhn.hapi.fhir</groupId>
 				<artifactId>hapi-fhir-converter</artifactId>
 				<version>6.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-jpaserver-base</artifactId>
+			<version>${hapi_stable_version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-jpaserver-hfql</artifactId>
+			<version>${hapi_stable_version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- This dependency is used for the "FHIR Tester" web app overlay -->
@@ -240,6 +250,11 @@
 
 		<!-- webjars -->
 		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>ace-builds</artifactId>
+			<version>1.22.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>5.1.0</version>
@@ -315,7 +330,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.14.0-rc2</version>
+			<version>${jackson_version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
@@ -473,8 +488,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>17</release>
 				</configuration>
 			</plugin>
 

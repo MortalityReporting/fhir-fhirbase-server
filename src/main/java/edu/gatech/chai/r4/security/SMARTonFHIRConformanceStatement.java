@@ -36,6 +36,7 @@ import org.hl7.fhir.r4.model.OperationDefinition.OperationParameterUse;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.DecimalType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.IntegerType;
@@ -43,12 +44,15 @@ import org.hl7.fhir.r4.model.OperationDefinition;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.UriType;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
+import edu.gatech.chai.fhir.config.ConfigValues;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
 /**
@@ -72,17 +76,52 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 	String authorizeURIvalue = "http://localhost:8080/authorize";
 	String tokenURIvalue = "http://localhost:8080/token";
 
+	private ConfigValues configValues;
+
 	public SMARTonFHIRConformanceStatement(RestfulServer theRestfulServer) {
 		super(theRestfulServer);
+
+		WebApplicationContext context = ContextLoaderListener.getCurrentWebApplicationContext();
+		configValues = context.getBean(ConfigValues.class);
 	}
 
 	@Override
 	public CapabilityStatement getServerConformance(HttpServletRequest theRequest, RequestDetails theRequestDetails) {
-		CapabilityStatement conformanceStatement = (CapabilityStatement) super.getServerConformance(theRequest, theRequestDetails);
+		CapabilityStatement cs = (CapabilityStatement) super.getServerConformance(theRequest, theRequestDetails);
+
+		String title = "MDI FHIR Server";
+		String name = null;
+		String version = null;
+		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
+			version = configValues.getServerVersion().toLowerCase();
+		} else {
+			version = "v2023.09.25.1.5.4";
+		}
+
+		if (configValues.getServerType() != null && !configValues.getServerType().isBlank()) {
+			if ("EDRS".equalsIgnoreCase(configValues.getServerType())) {
+				title = "Bluejay FHIR Server";
+				name = "blusejay";
+			} else {
+				title = "Raven FHIR Server";
+				name = "raven";
+			}
+		}
+
+		cs.setTitle(title);
+		cs.setName(name);
+		cs.setVersion(version);
+		cs
+         .getSoftware()
+		 .setName("MDI FHIR Server")
+         .setVersion(version)
+         .setReleaseDateElement(new DateTimeType("2023-10-20"));
+
+		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 
 		Map<String, Long> counts = ExtensionUtil.getResourceCounts();
 
-		for (CapabilityStatementRestComponent rest : conformanceStatement.getRest()) {
+		for (CapabilityStatementRestComponent rest : cs.getRest()) {
 			for (CapabilityStatementRestResourceComponent nextResource : rest.getResource()) {
 				Long count = counts.get(nextResource.getTypeElement().getValueAsString());
 				if (count != null) {
@@ -114,33 +153,15 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 			tokenExtension.setUrl(tokenURI);
 			tokenExtension.setValue(new UriType(tokenURIvalue));
 
-//		Extension registerExtension = new Extension();
-//		registerExtension.setUrl(registerURI);
-//		registerExtension.setValue(new UriType(registerURIvalue));
-
 			secExtension.addExtension(authorizeExtension);
 			secExtension.addExtension(tokenExtension);
-//		secExtension.addExtension(registerExtension);
 
 			restSec.addExtension(secExtension);
 
-			// restSec.addUndeclaredExtension(authorizeExtension);
-			// restSec.addUndeclaredExtension(tokenExtension);
-			// restSec.addUndeclaredExtension(registerExtension);
-
 			rest.setSecurity(restSec);
-
-//		List<CapabilityStatementRestComponent> rests = conformanceStatement.getRest();
-//		if (rests == null || rests.size() <= 0) {
-//			CapabilityStatementRestComponent rest = new CapabilityStatementRestComponent();
-//			rest.setSecurity(restSec);
-//			conformanceStatement.addRest(rest);
-//		} else {
-//			CapabilityStatementRestComponent rest = rests.get(0);
-//			rest.setSecurity(restSec);
-//		}
 		}
-		return conformanceStatement;
+
+		return cs;
 	}
 
 	public void setAuthServerUrl(String url) {
@@ -186,7 +207,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 							.setType("string")
 							.setSearchType(SearchParamType.DATE)
 							.addExtension(myExtension("urn:gtri:mapi-label", "Birthdate"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(3)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(3)));
 						parameter.addPart(partParameter);
 
 						partParameter = new OperationDefinitionParameterComponent();
@@ -197,7 +218,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 							.setType("string")
 							.setSearchType(SearchParamType.STRING)
 							.addExtension(myExtension("urn:gtri:mapi-label", "Family Name"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(0)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(0)));
 						parameter.addPart(partParameter);
 
 						partParameter = new OperationDefinitionParameterComponent();
@@ -208,7 +229,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 							.setType("string")
 							.setSearchType(SearchParamType.STRING)
 							.addExtension(myExtension("urn:gtri:mapi-label", "Given Name"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(1)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(1)));
 						parameter.addPart(partParameter);
 
 						partParameter = new OperationDefinitionParameterComponent();
@@ -219,20 +240,20 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 							.setType("string")
 							.setSearchType(SearchParamType.TOKEN)
 							.addExtension(myExtension("urn:gtri:mapi-label", "Gender"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(2)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(2)));
 						parameter.addPart(partParameter);
 					} else if ("tracking-number".equals(parameter.getName())) {
 						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Tracking Number"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(7)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(7)));
 					} else if ("death-location".equals(parameter.getName())) {
 						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Location"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(4)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(4)));
 					} else if ("death-date-pronounced".equals(parameter.getName())) {
 						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Pronounced Death Date"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(6)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(6)));
 					} else if ("death-date".equals(parameter.getName())) {
 						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Date"))
-							.addExtension(myExtension("urn:gtri:mapi-label-order", new Integer(5)));
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(5)));
 					}
 				}
 			}
