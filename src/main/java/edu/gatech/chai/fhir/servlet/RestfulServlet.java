@@ -17,6 +17,7 @@ package edu.gatech.chai.fhir.servlet;
 
 import java.util.*;
 
+import edu.gatech.chai.fhir.security.BasicAuthenticationInterceptor;
 import edu.gatech.chai.fhir.security.OIDCInterceptor;
 import edu.gatech.chai.fhironfhirbase.provider.*;
 import edu.gatech.chai.r4.security.SMARTonFHIRConformanceStatement;
@@ -278,8 +279,8 @@ public class RestfulServlet extends RestfulServer {
 //		oIDCInterceptor.setClientSecret(client_secret);
 ////		oIDCInterceptor.setLocalByPass(local_bypass);
 //		oIDCInterceptor.setReadOnly(read_only);
-
-		// registerInterceptor(oIDCInterceptor);
+		BasicAuthenticationInterceptor basicAuthInterceptor = new BasicAuthenticationInterceptor();
+		registerInterceptor(basicAuthInterceptor);
 
 		/*
 		 * Tells the server to return pretty-printed responses by default
