@@ -43,6 +43,7 @@ import org.hl7.fhir.r4.model.IntegerType;
 import org.hl7.fhir.r4.model.OperationDefinition;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
+import org.hl7.fhir.r4.model.Type;
 import org.hl7.fhir.r4.model.UriType;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
@@ -176,8 +177,10 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		Extension extensionLabel = new Extension();
 
 		extensionLabel.setUrl(url);
-		if (value instanceof Integer) {
-			extensionLabel.setValue(new IntegerType((Integer)value));
+		if (value instanceof Type) {
+			extensionLabel.setValue((Type) value);
+		} else if (value instanceof Integer) {
+			extensionLabel.setValue(new IntegerType((Integer) value));
 		} else {
 			extensionLabel.setValue(new StringType((String)value));
 		}

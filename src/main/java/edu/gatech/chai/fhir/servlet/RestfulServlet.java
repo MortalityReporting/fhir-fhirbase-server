@@ -271,7 +271,7 @@ public class RestfulServlet extends RestfulServer {
 //		if (read_only == null)
 //			read_only = getServletConfig().getInitParameter("readOnly");
 
-		OIDCInterceptor oIDCInterceptor = new OIDCInterceptor();
+		// OIDCInterceptor oIDCInterceptor = new OIDCInterceptor();
 //		oIDCInterceptor.setIntrospectUrl(url);
 //		oIDCInterceptor.setAuthBasic(authBasic);
 //		oIDCInterceptor.setClientId(client_id);
@@ -279,7 +279,7 @@ public class RestfulServlet extends RestfulServer {
 ////		oIDCInterceptor.setLocalByPass(local_bypass);
 //		oIDCInterceptor.setReadOnly(read_only);
 
-		registerInterceptor(oIDCInterceptor);
+		// registerInterceptor(oIDCInterceptor);
 
 		/*
 		 * Tells the server to return pretty-printed responses by default
