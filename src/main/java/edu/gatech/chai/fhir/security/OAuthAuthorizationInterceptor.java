@@ -10,15 +10,23 @@ import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import ca.uhn.fhir.rest.server.interceptor.auth.AuthorizationInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
 import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
+import edu.gatech.chai.fhir.smart.Jwt.JwtUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 
 public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OAuthAuthorizationInterceptor.class);
 
+    public OAuthAuthorizationInterceptor() {
+
+    }
+
     public static boolean isBearerAuth(String authHeader) {
 		if (authHeader == null || authHeader.isEmpty() || authHeader.length() < 6) {
 			AuthenticationException ex = new AuthenticationException(Msg.code(642) + "Mission or Invalid Authorization Header");
-			ex.addAuthenticateHeaderForRealm("HAPIFHIRonFhirbase");
-			throw ex;
+			throw ex.addAuthenticateHeaderForRealm("HAPIFHIRonFhirbase");
 		}
 
 		// Check if basic auth.
@@ -44,9 +52,12 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
 
         if (OAuthAuthorizationInterceptor.isBearerAuth(authHeader)) {
             // Examine the bearer token to build the rule.
-            String token = authHeader.substring(7);
-            
-            // validate the token.
+            String token = authHeader.substring(7).trim();
+
+            // Get claims from token.
+            Jws<Claims> jwtClaims = JwtUtil.getJWTClaims(token);
+            Claims claims = jwtClaims.getBody();
+
             
             return new RuleBuilder()
                     .allow()

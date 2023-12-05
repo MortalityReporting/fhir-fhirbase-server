@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.gatech.chai.fhir.smart.Jwt.JwtUtil;
 import edu.gatech.chai.fhir.smart.dao.JwkSetImpl;
 import edu.gatech.chai.fhir.smart.dao.SmartOnFhirAppImpl;
 import edu.gatech.chai.fhir.smart.dao.SmartOnFhirSessionImpl;
@@ -58,7 +59,6 @@ import edu.gatech.chai.fhir.smart.model.JwkSetEntry;
 import edu.gatech.chai.fhir.smart.model.SmartOnFhirAppEntry;
 import edu.gatech.chai.fhir.smart.model.SmartOnFhirAppListContainer;
 import edu.gatech.chai.fhir.smart.model.SmartOnFhirSessionEntry;
-import edu.gatech.chai.fhir.smart.servlet.jwt.JwtUtil;
 import edu.gatech.chai.fhir.smart.servlet.response.IntrospectResponse;
 import edu.gatech.chai.fhir.smart.servlet.response.OAuth2Error;
 import edu.gatech.chai.fhir.smart.servlet.response.TokenResponse;

@@ -1,4 +1,4 @@
-package edu.gatech.chai.fhir.smart.servlet.jwt;
+package edu.gatech.chai.fhir.smart.Jwt;
 
 import java.security.Key;
 import java.security.KeyFactory;
@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.gatech.chai.fhir.smart.dao.JwkSetImpl;
 import edu.gatech.chai.fhir.smart.model.JwkSetEntry;
@@ -20,12 +19,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.SigningKeyResolverAdapter;
 
-public class MySigningKeyResolve extends SigningKeyResolverAdapter {
-	final static Logger logger = LoggerFactory.getLogger(MySigningKeyResolve.class);
+public class MySigningKeyResolver extends SigningKeyResolverAdapter {
+	final static Logger logger = LoggerFactory.getLogger(MySigningKeyResolver.class);
 
 	protected JwkSetImpl jwkSet;
 
-	public MySigningKeyResolve() {
+	public MySigningKeyResolver() {
 		super();
 
 		jwkSet = new JwkSetImpl();

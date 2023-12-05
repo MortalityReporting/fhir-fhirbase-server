@@ -1,4 +1,4 @@
-package edu.gatech.chai.fhir.smart.servlet.jwt;
+package edu.gatech.chai.fhir.smart.Jwt;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import io.jsonwebtoken.Jwts;
 public class JwtUtil {
 	public static Jws<Claims> getJWTClaims(String jws) {
 		Jws<Claims> claims = null;
-		MySigningKeyResolve signingResolver = new MySigningKeyResolve();
+		MySigningKeyResolver signingResolver = new MySigningKeyResolver();
 
-		JwtParser jwtParser = Jwts.parserBuilder().setSigningKeyResolver(signingResolver).build();
-		claims = jwtParser.parseClaimsJws(jws);
+		// JwtParser jwtParser = Jwts.builder().setSigningKeyResolver(signingResolver).build();
+		// claims = jwtParser.parseClaimsJws(jws);
 		return claims;
 	}
 	

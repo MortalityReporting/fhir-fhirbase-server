@@ -12,20 +12,25 @@ public class ConfigValues {
 	@Value("${server.type}")
 	private String serverType;
 
+    @Value("${auth.domain}")
+    private String authDomain;
+
+    @Value("${auth.audience}")
+    private String authAudience;
 
     public String getServerVersion() {
         return this.serverVersion;
     }
 
-    public void setServerVersion(String serverVersion) {
-        this.serverVersion = serverVersion;
-    }
-    
     public String getServerType() {
         return this.serverType;
     }
 
-    public void setServerType(String serverType) {
-        this.serverType = serverType;
+    public String getAuthDomain() {
+        return this.authDomain;
+    }
+
+    public String getAuthAudience() {
+        return this.authAudience;
     }
 }

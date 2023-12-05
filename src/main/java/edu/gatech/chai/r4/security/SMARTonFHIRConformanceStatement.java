@@ -96,13 +96,13 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
 			version = configValues.getServerVersion().toLowerCase();
 		} else {
-			version = "v2023.09.25.1.5.4";
+			version = "version not available in env";
 		}
 
 		if (configValues.getServerType() != null && !configValues.getServerType().isBlank()) {
 			if ("EDRS".equalsIgnoreCase(configValues.getServerType())) {
 				title = "Bluejay FHIR Server";
-				name = "blusejay";
+				name = "bluejay";
 			} else {
 				title = "Raven FHIR Server";
 				name = "raven";

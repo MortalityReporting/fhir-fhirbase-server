@@ -32,7 +32,7 @@
 
 	<properties>
 		<hapi_stable_version>6.8.2</hapi_stable_version>
-		<fhir-fhirbase>1.11.1</fhir-fhirbase>
+		<fhir-fhirbase>1.11.2</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -57,6 +57,8 @@
 
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<ebay_cors_filter_version>1.0.1</ebay_cors_filter_version>
+
+		<jjwt_version>0.12.3</jjwt_version>
 
 		<ucum_version>1.0.8</ucum_version>
 	</properties>
@@ -362,18 +364,18 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.11.1</version>
+			<version>${jjwt_version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.1</version>
+			<version>${jjwt_version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
-			<version>0.11.1</version>
+			<version>${jjwt_version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
