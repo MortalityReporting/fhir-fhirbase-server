@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.gatech.chai.fhir.config.ConfigValues;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.LocatorAdapter;
+import io.jsonwebtoken.security.Jwk;
+import io.jsonwebtoken.security.Jwks;
 
 public class AsymmSigAlg extends LocatorAdapter<Key> {
     final static Logger logger = LoggerFactory.getLogger(AsymmSigAlg.class);
@@ -58,7 +60,13 @@ public class AsymmSigAlg extends LocatorAdapter<Key> {
             return null;
         }
 
+        for (JsonNode key : keys) {
+            if (keyId.equals(key.path("kid").asText())) {
+                Jwk<?> pubKey = Jwks.parser().build().parse(key.toString());
+                return pubKey.toKey();
+            }
+        }
 
-        return lookupSignatureVerificationKey(keyId); //implement me
+        return null;
     }
 }

@@ -25,27 +25,20 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
-import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
-//import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-//import ca.uhn.fhir.model.dstu.valueset.RestfulOperationTypeEnum;
 import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
-//import ca.uhn.fhir.rest.method.RequestDetails;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 
 /**
@@ -112,25 +105,22 @@ public class Authorization {
 	}
 
 	public String introspectToken(HttpServletRequest request) {
-		// reset values;
-//		userId = null;
 		token_type = null;
 
-		OAuthAccessResourceRequest oauthRequest;
-		try {
-			oauthRequest = new OAuthAccessResourceRequest(request, ParameterStyle.HEADER);
+		String authString = request.getHeader("Authorization");
+		if (authString == null)
+			return "No Authorization Header";
 
-			// Get the access token
-			String accessToken = oauthRequest.getAccessToken();
-			logger.debug("Access Token for Introspect:" + accessToken);
+		logger.debug("asBearerAuth Authorization header:" + authString);
 
-			if (introspectToken(accessToken) == false) {
-				return "Invalid or Expired Access Token";
-			}
+		if (authString.regionMatches(0, "Bearer", 0, 6) == false)
+			return "Invalid Bearer Token: " + authString;
 
-		} catch (OAuthSystemException | OAuthProblemException e) {
-			e.printStackTrace();
-			return "Invalid Auth Request";
+		String accessToken = authString.substring(7);
+
+		logger.debug("Access Token for Introspect:" + accessToken);
+		if (introspectToken(accessToken) == false) {
+			return "Invalid or Expired Access Token";
 		}
 
 		return "";
@@ -152,7 +142,7 @@ public class Authorization {
 
 		String introspectTokenUrl = url + "?token=" + this.token;
 		response = restTemplate.exchange(introspectTokenUrl, HttpMethod.POST, reqAuth, String.class);
-		HttpStatus statusCode = response.getStatusCode();
+		HttpStatusCode statusCode = response.getStatusCode();
 		if (statusCode.is2xxSuccessful() == false) {
 			logger.debug("Introspect (token:" + token + ") response with statusCode:" + statusCode.toString());
 			return false;
@@ -451,15 +441,17 @@ public class Authorization {
 	}
 
 	public boolean asBearerAuth(HttpServletRequest request) {
-		OAuthAccessResourceRequest oauthRequest;
-		try {
-			oauthRequest = new OAuthAccessResourceRequest(request, ParameterStyle.HEADER);
-			// Get the access token
-			String accessToken = oauthRequest.getAccessToken();
-			return introspectToken(accessToken);
-		} catch (OAuthSystemException | OAuthProblemException e) {
-			e.printStackTrace();
+		String authString = request.getHeader("Authorization");
+		if (authString == null)
 			return false;
-		}
+
+		logger.debug("asBearerAuth Authorization header:" + authString);
+
+		if (authString.regionMatches(0, "Bearer", 0, 6) == false)
+			return false;
+
+		String accessToken = authString.substring(7);
+
+		return introspectToken(accessToken);
 	}
 }

@@ -1,6 +1,7 @@
 <!-- Copyright (c) 2019 Georgia Tech Research Institute Licensed under the 
 	Apache License, Version 2.0 (the "License"); you may not use this file except 
-	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0 
 	Unless required by applicable law or agreed to in writing, software distributed 
 	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
 	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
@@ -16,7 +17,7 @@
 	<groupId>edu.gatech.chai</groupId>
 	<artifactId>fhir-fhirbase-server</artifactId>
 	<packaging>war</packaging>
-	<version>1.5.2</version>
+	<version>1.6.0</version>
 
 	<name>RESTful Server for FHIRBase</name>
 
@@ -31,8 +32,8 @@
 	</repositories>
 
 	<properties>
-		<hapi_stable_version>6.8.2</hapi_stable_version>
-		<fhir-fhirbase>1.11.2</fhir-fhirbase>
+		<hapi_stable_version>7.2.1</hapi_stable_version>
+		<fhir-fhirbase>1.12.0</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -42,15 +43,15 @@
 		<!-- Dependency Versions -->
 		<derby_version>10.14.2.0</derby_version>
 		<jersey_version>2.25.1</jersey_version>
-		<jetty_version>9.4.49.v20220914</jetty_version>
+		<jetty_version>12.0.3</jetty_version>
 
-		<jackson_version>2.15.2</jackson_version>
+		<jackson_version>2.16.1</jackson_version>
 		<jaxb_api_version>2.3.1</jaxb_api_version>
 		<lucene_version>5.5.5</lucene_version>
 		<maven_assembly_plugin_version>3.3.0</maven_assembly_plugin_version>
 		<maven_license_plugin_version>1.8</maven_license_plugin_version>
 
-		<spring_version>5.3.27</spring_version>
+		<spring_version>6.1.6</spring_version>
 		<spring_data_version>2.2.0.RELEASE</spring_data_version>
 
 		<thymeleaf-version>3.1.2.RELEASE</thymeleaf-version>
@@ -95,9 +96,9 @@
 
 		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-converter -->
 		<dependency>
-				<groupId>ca.uhn.hapi.fhir</groupId>
-				<artifactId>hapi-fhir-converter</artifactId>
-				<version>6.4.0</version>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-converter</artifactId>
+			<version>6.4.0</version>
 		</dependency>
 
 		<dependency>
@@ -139,7 +140,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.4.4</version>
+			<version>1.4.14</version>
 		</dependency>
 
 		<!-- Needed for JEE/Servlet support -->
@@ -157,10 +158,9 @@
 			<version>${thymeleaf-version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf-spring5</artifactId>
+			<artifactId>thymeleaf-spring6</artifactId>
 			<version>${thymeleaf-version}</version>
 		</dependency>
 
@@ -317,17 +317,17 @@
 			<artifactId>webjars-locator</artifactId>
 			<version>0.39</version>
 		</dependency>
- 		<dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>popper.js</artifactId>
-            <version>1.16.1</version>
-        </dependency>
 		<dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>4.5.2</version>
-    	</dependency>
-		
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>popper.js</artifactId>
+			<version>1.16.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -339,7 +339,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.27.2.1</version>
+			<version>3.45.1.0</version>
 		</dependency>
 
 		<dependency>
@@ -354,10 +354,18 @@
 			<version>${jaxb_api_version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
 		<dependency>
-			<groupId>javax.interceptor</groupId>
-			<artifactId>javax.interceptor-api</artifactId>
-			<version>1.2</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.interceptor</groupId>
+			<artifactId>jakarta.interceptor-api</artifactId>
+			<version>2.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -391,59 +399,6 @@
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
 			<version>2.7.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-api</artifactId>
-			<version>${jetty_version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-client</artifactId>
-			<version>${jetty_version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-http</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlets</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlet</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-util</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-webapp</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-server</artifactId>
-			<version>${jetty_version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -488,9 +443,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.12.1</version>
 				<configuration>
-					<release>17</release>
+					<release>21</release>
 				</configuration>
 			</plugin>
 
@@ -522,7 +477,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>10.0.11</version>
+				<version>11.0.20</version>
 			</plugin>
 		</plugins>
 	</build>

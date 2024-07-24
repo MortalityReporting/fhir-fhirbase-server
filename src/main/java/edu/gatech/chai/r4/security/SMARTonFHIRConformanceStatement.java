@@ -20,7 +20,7 @@ package edu.gatech.chai.r4.security;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import ca.uhn.fhir.rest.server.provider.ServerCapabilityStatementProvider;
 
