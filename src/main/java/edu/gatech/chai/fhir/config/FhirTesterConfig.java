@@ -18,10 +18,14 @@ package edu.gatech.chai.fhir.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.to.FhirTesterMvcConfig;
 import ca.uhn.fhir.to.TesterConfig;
+import ca.uhn.fhir.to.util.WebUtil;
+import jakarta.annotation.Nonnull;
 
 //@formatter:off
 /**
@@ -33,23 +37,9 @@ import ca.uhn.fhir.to.TesterConfig;
  *    method below
  */
 @Configuration
-@Import(FhirTesterMvcConfig.class)
-public class FhirTesterConfig {
-
-	/**
-	 * This bean tells the testing webpage which servers it should configure itself
-	 * to communicate with. In this example we configure it to talk to the local
-	 * server, as well as one public server. If you are creating a project to 
-	 * deploy somewhere else, you might choose to only put your own server's 
-	 * address here.
-	 * 
-	 * Note the use of the ${serverBase} variable below. This will be replaced with
-	 * the base URL as reported by the server itself. Often for a simple Tomcat
-	 * (or other container) installation, this will end up being something
-	 * like "http://localhost:8080/hapi-fhir-jpaserver-example". If you are
-	 * deploying your server to a place with a fully qualified domain name, 
-	 * you might want to use that instead of using the variable.
-	 */
+// @Import(FhirTesterMvcConfig.class)
+@EnableWebMvc
+public class FhirTesterConfig extends FhirTesterMvcConfig {
 	@Bean
 	public TesterConfig testerConfig() {
 		TesterConfig retVal = new TesterConfig();

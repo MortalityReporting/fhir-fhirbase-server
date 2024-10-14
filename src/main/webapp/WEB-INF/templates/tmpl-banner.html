@@ -1,26 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="banner">
 	<div class="row">
-		<div class="col-md-8">
-			<table border="0">
-				<tr>
-					<td>
-						<img src="img/gtri_chai_logo.png" alt="GTRI and CHAI Logo" />
-					</td>
-					<td>
-						<img src="img/hapi_fhir_banner_right.png" />
-					</td>
-				</tr>
-			</table>
+		<div class="col-md-4" style="padding-top: 39px; left: -65px;">
+			<img src="img/gtri_chai_logo.png" style="height: 70px;" />
+		</div>
+		<div class="col-md-8" style="padding-top: 39px; left: -65px;">
+			<img src="img/hapi_fhir_banner_right.png" style="height: 70px;" />
 		</div>
 	</div>
-	
-	<!-- Error banner in case anything went wrong -->	
+
+	<!-- Error banner in case anything went wrong -->
 	<div class="alert  alert-danger alert-dismissable" th:if="${errorMsg} != null">
 		<strong>Warning!</strong>
 		<p th:text="${errorMsg}"></p>
 	</div>
-	
+
 </div>
+
 </html>
