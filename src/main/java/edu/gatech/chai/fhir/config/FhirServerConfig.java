@@ -74,7 +74,7 @@ public class FhirServerConfig {
 	@Value("${server.type}")
 	private String serverType;
 
-    @Value("${auth.domain}")
+    @Value("${auth.issuer-url}")
     private String authDomain;
 
     @Value("${auth.audience}")
