@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.uhn.fhir.i18n.Msg;
 import ca.uhn.fhir.interceptor.api.Hook;
@@ -13,7 +12,6 @@ import ca.uhn.fhir.interceptor.api.Pointcut;
 import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
-import edu.gatech.chai.fhir.config.ConfigValues;
 
 /***
  * AuthenticationInterceptor
@@ -27,9 +25,6 @@ public class AuthenticationInterceptor {
     private String authNBasic;
 	private String authNBearer;
 
-	@Autowired
-	private ConfigValues configValue;
-	
     public AuthenticationInterceptor() {
 		String authBasicEnv = System.getenv("AUTH_BASIC");
 		if (authBasicEnv != null && !authBasicEnv.isEmpty()) {
@@ -132,9 +127,6 @@ public class AuthenticationInterceptor {
 			String token = null;
 			try {
 				token = authHeader.substring(7);
-
-				configValue.getAuthAudience();
-				configValue.getAuthAudience();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -3,20 +3,16 @@ package edu.gatech.chai.fhir.security;
 import java.util.List;
 import java.util.Map;
 
-import org.hl7.fhir.r4.model.IdType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.auth.AuthorizationInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilder;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRule;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRuleOp;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRuleOpClassifier;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRuleOpClassifierFinished;
 import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
 
 public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
@@ -53,7 +49,6 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
             if (scopes != null && !scopes.isBlank()) {
                 String[] _scopes = scopes.trim().split(" ");
                 RuleBuilder ruleBuilder = new RuleBuilder();
-                IAuthRuleBuilder iRuleBuilder = null;
                 for (String scope : _scopes) {
                     String[] scope_details = scope.split(("/"));
                     if (scope_details.length != 2) {

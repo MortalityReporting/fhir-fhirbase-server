@@ -62,13 +62,6 @@ import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
  */
 public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementProvider {
 
-	// static String authorizeURI =
-	// "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#authorize";
-	// static String tokenURI =
-	// "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#token";
-	// static String registerURI =
-	// "http://fhir-registry.smarthealthit.org/Profile/oauth-uris#register";
-
 	static String oauthURI = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
 	static String authorizeURI = "authorize";
 	static String tokenURI = "token";
@@ -116,7 +109,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
          .getSoftware()
 		 .setName("MDI FHIR Server")
          .setVersion(version)
-         .setReleaseDateElement(new DateTimeType("2023-10-20"));
+         .setReleaseDateElement(new DateTimeType("2024-10-15"));
 
 		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 
@@ -135,8 +128,7 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 
 			// Set security.service
 			CodeableConcept codeableConcept = new CodeableConcept();
-			Coding coding = new Coding("https://www.hl7.org/fhir/codesystem-restful-security-service.html",
-					"SMART-on-FHIR", "SMART-on-FHIR");
+			Coding coding = new Coding("http://terminology.hl7.org/CodeSystem/restful-security-service", "OAuth", "OAuth");
 			codeableConcept.addCoding(coding);
 
 			restSec.addService(codeableConcept);
@@ -146,15 +138,15 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 			Extension secExtension = new Extension();
 			secExtension.setUrl(oauthURI);
 
-			Extension authorizeExtension = new Extension();
-			authorizeExtension.setUrl(authorizeURI);
-			authorizeExtension.setValue(new UriType(authorizeURIvalue));
+			// Extension authorizeExtension = new Extension();
+			// authorizeExtension.setUrl(authorizeURI);
+			// authorizeExtension.setValue(new UriType(authorizeURIvalue));
 
 			Extension tokenExtension = new Extension();
 			tokenExtension.setUrl(tokenURI);
 			tokenExtension.setValue(new UriType(tokenURIvalue));
 
-			secExtension.addExtension(authorizeExtension);
+			// secExtension.addExtension(authorizeExtension);
 			secExtension.addExtension(tokenExtension);
 
 			restSec.addExtension(secExtension);
