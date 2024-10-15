@@ -45,22 +45,23 @@ import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Type;
 import org.hl7.fhir.r4.model.UriType;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
+// import org.springframework.web.context.ContextLoaderListener;
+// import org.springframework.web.context.WebApplicationContext;
 
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
-import edu.gatech.chai.fhir.config.ConfigValues;
+// import edu.gatech.chai.fhir.config.ConfigValues;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
 /**
  * @author mc142local
  *
  */
-public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementProvider {
+public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 
 	static String oauthURI = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
 	static String authorizeURI = "authorize";
@@ -70,13 +71,19 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 	String authorizeURIvalue = "http://localhost:8080/authorize";
 	String tokenURIvalue = "http://localhost:8080/token";
 
-	private ConfigValues configValues;
+	@Value("${server.type}")
+	private String serverType;
 
-	public SMARTonFHIRConformanceStatement(RestfulServer theRestfulServer) {
+	@Value("${server.version}")
+	private String serverVersion;
+
+	// private ConfigValues configValues;
+
+	public MyCapabilityStatement(RestfulServer theRestfulServer) {
 		super(theRestfulServer);
 
-		WebApplicationContext context = ContextLoaderListener.getCurrentWebApplicationContext();
-		configValues = context.getBean(ConfigValues.class);
+		// WebApplicationContext context = ContextLoaderListener.getCurrentWebApplicationContext();
+		// configValues = context.getBean(ConfigValues.class);
 	}
 
 	@Override
@@ -86,14 +93,14 @@ public class SMARTonFHIRConformanceStatement extends ServerCapabilityStatementPr
 		String title = "MDI FHIR Server";
 		String name = null;
 		String version = null;
-		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
-			version = configValues.getServerVersion().toLowerCase();
+		if (serverVersion != null && !serverVersion.isBlank()) {
+			version = serverVersion.toLowerCase();
 		} else {
 			version = "version not available in env";
 		}
 
-		if (configValues.getServerType() != null && !configValues.getServerType().isBlank()) {
-			if ("EDRS".equalsIgnoreCase(configValues.getServerType())) {
+		if (serverType != null && !serverType.isBlank()) {
+			if ("EDRS".equalsIgnoreCase(serverType)) {
 				title = "Bluejay FHIR Server";
 				name = "bluejay";
 			} else {

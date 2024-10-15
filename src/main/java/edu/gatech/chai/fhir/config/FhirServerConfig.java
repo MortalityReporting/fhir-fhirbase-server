@@ -26,8 +26,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.zaxxer.hikari.HikariDataSource;
-
 import edu.gatech.chai.fhironfhirbase.database.DatabaseConfiguration;
 import edu.gatech.chai.fhironfhirbase.database.DatabaseConfigurationImpl;
 

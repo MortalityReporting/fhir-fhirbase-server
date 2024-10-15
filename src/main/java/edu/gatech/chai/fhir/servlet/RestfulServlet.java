@@ -19,7 +19,7 @@ import java.util.*;
 
 import edu.gatech.chai.fhir.security.AuthenticationInterceptor;
 import edu.gatech.chai.fhironfhirbase.provider.*;
-import edu.gatech.chai.r4.security.SMARTonFHIRConformanceStatement;
+import edu.gatech.chai.r4.security.MyCapabilityStatement;
 
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
@@ -194,7 +194,7 @@ public class RestfulServlet extends RestfulServer {
 		String tokenServerUrl = System.getenv("SMART_TOKENSERVERURL");
 
 		// CapabilityStatement must be loaded after providers.
-		SMARTonFHIRConformanceStatement capbilityProvider = new SMARTonFHIRConformanceStatement(this);
+		MyCapabilityStatement capbilityProvider = new MyCapabilityStatement(this);
 		capbilityProvider.setPublisher("Georgia Tech - I3L");
 
 		if (authServerUrl != null && !authServerUrl.isEmpty())
