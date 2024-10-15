@@ -45,15 +45,20 @@ import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Type;
 import org.hl7.fhir.r4.model.UriType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 // import org.springframework.web.context.ContextLoaderListener;
 // import org.springframework.web.context.WebApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
+import edu.gatech.chai.fhir.config.ConfigValues;
 // import edu.gatech.chai.fhir.config.ConfigValues;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
@@ -71,19 +76,14 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 	String authorizeURIvalue = "http://localhost:8080/authorize";
 	String tokenURIvalue = "http://localhost:8080/token";
 
-	@Value("${server.type}")
-	private String serverType;
-
-	@Value("${server.version}")
-	private String serverVersion;
-
-	// private ConfigValues configValues;
+	@Autowired
+	private ConfigValues configValues;
 
 	public MyCapabilityStatement(RestfulServer theRestfulServer) {
 		super(theRestfulServer);
 
-		// WebApplicationContext context = ContextLoaderListener.getCurrentWebApplicationContext();
-		// configValues = context.getBean(ConfigValues.class);
+		WebApplicationContext context = ContextLoaderListener.getCurrentWebApplicationContext();
+		configValues = context.getBean(ConfigValues.class);
 	}
 
 	@Override
@@ -93,14 +93,14 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 		String title = "MDI FHIR Server";
 		String name = null;
 		String version = null;
-		if (serverVersion != null && !serverVersion.isBlank()) {
-			version = serverVersion.toLowerCase();
+		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
+			version = configValues.getServerVersion().toLowerCase();
 		} else {
 			version = "version not available in env";
 		}
 
-		if (serverType != null && !serverType.isBlank()) {
-			if ("EDRS".equalsIgnoreCase(serverType)) {
+		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
+			if ("EDRS".equalsIgnoreCase(configValues.getServerVersion())) {
 				title = "Bluejay FHIR Server";
 				name = "bluejay";
 			} else {

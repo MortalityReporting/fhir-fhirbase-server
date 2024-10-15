@@ -18,6 +18,7 @@ package edu.gatech.chai.fhir.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
@@ -36,7 +37,8 @@ import edu.gatech.chai.fhironfhirbase.database.DatabaseConfigurationImpl;
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.database"),
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.provider"),
 		@ComponentScan("edu.gatech.chai.fhironfhirbase.operation"),
-		@ComponentScan("edu.gatech.chai.fhir.config") })
+		@ComponentScan("edu.gatech.chai.fhir.config"),
+		@ComponentScan("edu.gatech.chai.r4.security") })
 @ImportResource({ "classpath:database-config.xml" })
 public class FhirServerConfig {
 	@Autowired
@@ -64,6 +66,29 @@ public class FhirServerConfig {
 			databaseConfiguration.setSqlRenderTargetDialect("postgresql");
 
 		return databaseConfiguration;
+	}
+
+	@Value("${server.version}")
+    private String serverVersion;
+
+	@Value("${server.type}")
+	private String serverType;
+
+    @Value("${auth.domain}")
+    private String authDomain;
+
+    @Value("${auth.audience}")
+    private String authAudience;
+
+	@Bean()
+	public ConfigValues configValues() {
+		ConfigValues configValues = new ConfigValues();
+		configValues.setServerVersion(this.serverVersion);
+		configValues.setServerType(serverType);
+		configValues.setAuthAudience(authAudience);
+		configValues.setAuthDomain(authDomain);
+
+		return configValues;
 	}
 
 //	@Bean()
