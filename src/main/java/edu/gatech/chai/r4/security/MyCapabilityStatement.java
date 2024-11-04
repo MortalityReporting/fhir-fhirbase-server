@@ -46,10 +46,6 @@ import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Type;
 import org.hl7.fhir.r4.model.UriType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.web.context.ContextLoaderListener;
-// import org.springframework.web.context.WebApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -59,7 +55,6 @@ import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.util.ExtensionConstants;
 import edu.gatech.chai.fhir.config.ConfigValues;
-// import edu.gatech.chai.fhir.config.ConfigValues;
 import edu.gatech.chai.fhironfhirbase.utilities.ExtensionUtil;
 
 /**
@@ -96,7 +91,7 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
 			version = configValues.getServerVersion().toLowerCase();
 		} else {
-			version = "version not available in env";
+			version = "version not available in properties";
 		}
 
 		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
@@ -116,7 +111,7 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
          .getSoftware()
 		 .setName("MDI FHIR Server")
          .setVersion(version)
-         .setReleaseDateElement(new DateTimeType("2024-10-15"));
+         .setReleaseDateElement(new DateTimeType("2024-11-04"));
 
 		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 

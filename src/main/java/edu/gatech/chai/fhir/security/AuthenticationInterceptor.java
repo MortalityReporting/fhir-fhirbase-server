@@ -23,7 +23,6 @@ public class AuthenticationInterceptor {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AuthenticationInterceptor.class);
 
     private String authNBasic;
-	private String authNBearer;
 
     public AuthenticationInterceptor() {
 		String authBasicEnv = System.getenv("AUTH_BASIC");
@@ -40,14 +39,6 @@ public class AuthenticationInterceptor {
 
     private Object getAuthNBasic() {
         return this.authNBasic;
-    }
-
-    private void setAuthNBearer(String authNBearer) {
-        this.authNBearer = authNBearer;
-    }
-
-    private Object getAuthNBearer() {
-        return this.authNBearer;
     }
 
 	public static boolean isBasicAuth(String authHeader) {

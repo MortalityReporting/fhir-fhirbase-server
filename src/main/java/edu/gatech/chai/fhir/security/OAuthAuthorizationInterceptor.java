@@ -77,19 +77,19 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
 
                     IAuthRuleBuilderRule allow = ruleBuilder.allow();
                     IAuthRuleBuilderRuleOp allowOp = null;
-                    if (access.contains("r") || "*".equals(access)) {
+                    if (access.contains("r") || access.contains("s") || "read".equals(access) || "*".equals(access)) {
                         allowOp = allow.read();
                     } 
                     
-                    if (access.contains("c") || "*".equals(access)) {
+                    if (access.contains("c") || "write".equals(access) || "*".equals(access)) {
                         allowOp = allow.create();
                     } 
                     
-                    if (access.contains("u") || "*".equals(access)) {
+                    if (access.contains("u") || "write".equals(access) || "*".equals(access)) {
                         allowOp = allow.write();
                     } 
                     
-                    if (access.contains("d") || "*".equals(access)) {
+                    if (access.contains("d") || "write".equals(access) || "*".equals(access)) {
                         allowOp = allow.delete();
                     }
 
