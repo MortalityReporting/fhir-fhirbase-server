@@ -3,7 +3,9 @@ package edu.gatech.chai.fhir.security;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
@@ -18,11 +20,17 @@ import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
 public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OAuthAuthorizationInterceptor.class);
 
-    @Autowired
     JwtDecoder jwtDecoder;
     
     public OAuthAuthorizationInterceptor() {
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
+            context.scan("edu.gatech.chai.fhir.security");
+            context.refresh();
 
+            jwtDecoder = context.getBean(JwtDecoder.class);
+        } catch (BeansException | IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,9 +56,12 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
 
             if (scopes != null && !scopes.isBlank()) {
                 String[] _scopes = scopes.trim().split(" ");
-                RuleBuilder ruleBuilder = new RuleBuilder();
+
+                // We have FHIR operations. We allow all operations for now.
+                RuleBuilder ruleBuilder = (RuleBuilder) new RuleBuilder().allow().operation().withAnyName().atAnyLevel().andRequireExplicitResponseAuthorization().andThen();
+
                 for (String scope : _scopes) {
-                    String[] scope_details = scope.split(("/"));
+                    String[] scope_details = scope.split(("\\/"));
                     if (scope_details.length != 2) {
                         // wrong format.
                         logger.warn("Scope format is wrong. Must have '/'.: " + scope);
@@ -58,16 +69,16 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
                     }
 
                     String scopeLevel = scope_details[0];
-                    String[] resourceAccess = scope_details[1].split(".");
+                    String[] resourceAccess = scope_details[1].split("\\.");
                     if (resourceAccess.length != 2) {
                         // wrong format.
-                        logger.warn("Scope format is wrong. Must have '.' for resource type and access.: " + scope);
+                        logger.warn("Scope format is wrong. Must have '.' for resource type and access.: " + scope_details[1]);
                         continue;
                     }
                     String resourceType = resourceAccess[0];
                     String access = resourceAccess[1];
                     
-                    String[] accessParams = resourceAccess[1].split("?");
+                    String[] accessParams = resourceAccess[1].split("\\?");
                     if (accessParams.length > 1) {
                         access = accessParams[0];
 
@@ -75,39 +86,45 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
                         // https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html#fhir-resource-scope-syntax
                     }
 
-                    IAuthRuleBuilderRule allow = ruleBuilder.allow();
-                    IAuthRuleBuilderRuleOp allowOp = null;
+                    // Now we set up the policy in FHIR intercept.
                     if (access.contains("r") || access.contains("s") || "read".equals(access) || "*".equals(access)) {
-                        allowOp = allow.read();
+                        if ("*".equals(resourceType)) {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().read().allResources().withAnyId().andThen();
+                        } else {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().read().resourcesOfType(resourceType).withAnyId().andThen();
+                        }    
                     } 
                     
                     if (access.contains("c") || "write".equals(access) || "*".equals(access)) {
-                        allowOp = allow.create();
+                        if ("*".equals(resourceType)) {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().create().allResources().withAnyId().andThen();
+                        } else {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().create().resourcesOfType(resourceType).withAnyId().andThen();
+                        }    
                     } 
                     
                     if (access.contains("u") || "write".equals(access) || "*".equals(access)) {
-                        allowOp = allow.write();
+                        if ("*".equals(resourceType)) {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().write().allResources().withAnyId().andThen();
+                        } else {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().write().resourcesOfType(resourceType).withAnyId().andThen();
+                        }    
                     } 
                     
                     if (access.contains("d") || "write".equals(access) || "*".equals(access)) {
-                        allowOp = allow.delete();
+                        if ("*".equals(resourceType)) {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().delete().allResources().withAnyId().andThen();
+                        } else {
+                            ruleBuilder = (RuleBuilder) ruleBuilder.allow().delete().resourcesOfType(resourceType).withAnyId().andThen();
+                        }    
                     }
-
-                    if (allowOp == null) {
-                        logger.warn ("access in scope has unrecozed symbol");
-                        continue; // access not recognized.
-                    }
-
-                    // Which resource?
-                    IAuthRuleBuilderRuleOpClassifier builderRuleOpClassifier = allowOp.resourcesOfType(resourceType);
-
-                    // We can then add inCompartment to limit this access to a certain Patient. 
-                    // But, we do not implement Introspect API for the token. So, there is no way
-                    // we cannot find which patient(s) this use is authorized. We allow all patients. 
-
-                    builderRuleOpClassifier.withAnyId().andThen();
                 }
 
+                List<IAuthRule> built = ruleBuilder.build();
+                for (IAuthRule authRule : built) {
+                    logger.info(authRule.getName());
+                    logger.info(authRule.toString());
+                }
                 return ruleBuilder.build();
 
                 // ruleBuilder.allow();

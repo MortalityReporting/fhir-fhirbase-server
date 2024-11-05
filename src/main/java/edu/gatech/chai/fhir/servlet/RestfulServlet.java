@@ -18,6 +18,7 @@ package edu.gatech.chai.fhir.servlet;
 import java.util.*;
 
 import edu.gatech.chai.fhir.security.AuthenticationInterceptor;
+import edu.gatech.chai.fhir.security.OAuthAuthorizationInterceptor;
 import edu.gatech.chai.fhironfhirbase.provider.*;
 import edu.gatech.chai.r4.security.MyCapabilityStatement;
 
@@ -281,6 +282,8 @@ public class RestfulServlet extends RestfulServer {
 		AuthenticationInterceptor authInterceptor = new AuthenticationInterceptor();
 		registerInterceptor(authInterceptor);
 
+		OAuthAuthorizationInterceptor oAuthAuthInterceptor = new OAuthAuthorizationInterceptor();
+		registerInterceptor(oAuthAuthInterceptor);
 		/*
 		 * Tells the server to return pretty-printed responses by default
 		 */
