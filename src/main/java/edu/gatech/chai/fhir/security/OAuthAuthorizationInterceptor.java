@@ -12,9 +12,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.auth.AuthorizationInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRule;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRuleOp;
-import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRuleBuilderRuleOpClassifier;
 import ca.uhn.fhir.rest.server.interceptor.auth.RuleBuilder;
 
 public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
@@ -23,19 +20,10 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
     JwtDecoder jwtDecoder;
     
     public OAuthAuthorizationInterceptor() {
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
-            context.scan("edu.gatech.chai.fhir.security");
-            context.refresh();
-
-            jwtDecoder = context.getBean(JwtDecoder.class);
-        } catch (BeansException | IllegalStateException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
-
         // Get the token from the header.
         String authHeader = theRequestDetails.getHeader("Authorization");
 
@@ -43,6 +31,15 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
             // Basic Auth must be examined already. At this point, if the basic authorization
             // exists, then this must be authenticated. And, basic auth in Bluejay is full access.
             return new RuleBuilder().allowAll().build();
+        }
+
+        if (this.jwtDecoder == null) {
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+            context.scan("edu.gatech.chai.fhir.security");
+            context.refresh();
+
+            jwtDecoder = context.getBean(JwtDecoder.class);
+            context.close();
         }
 
         if (AuthenticationInterceptor.isBearerAuth(authHeader)) {
