@@ -9,6 +9,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
+import ca.uhn.fhir.rest.api.RequestTypeEnum;
+import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.auth.AuthorizationInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.auth.IAuthRule;
@@ -24,6 +26,16 @@ public class OAuthAuthorizationInterceptor extends AuthorizationInterceptor {
 
     @Override
     public List<IAuthRule> buildRuleList(RequestDetails theRequestDetails) {
+        if (theRequestDetails.getRestOperationType() == RestOperationTypeEnum.METADATA) {
+			logger.debug("When the request is metadata, allowAll.");
+			return new RuleBuilder().allow().metadata().build();
+		}
+
+        if ("OperationDefinition".equals(theRequestDetails.getResourceName())) {
+            logger.debug("When the request is for OperationDefinition, allowAll.");
+			return new RuleBuilder().allow().read().resourcesOfType("OperationDefinition").withAnyId().build();
+        }
+
         // Get the token from the header.
         String authHeader = theRequestDetails.getHeader("Authorization");
 

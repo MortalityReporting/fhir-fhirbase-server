@@ -1,0 +1,307 @@
+{
+    "resourceType": "Bundle",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/mdi/StructureDefinition/Bundle-message-death-certificate-review"
+        ]
+    },
+    "type": "message",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:82371944-6c68-4d74-97a5-dfc1638649d5",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/mdi/StructureDefinition/MessageHeader-death-certificate-review"
+                    ]
+                },
+                "eventCoding": {
+                    "system": "http://hl7.org/fhir/us/mdi/CodeSystem/cs-mdi-codes",
+                    "code": "death-certificate-review-event"
+                },
+                "destination": [
+                    {
+                        "endpoint": "https://boomi.test/fhir/ccr"
+                    }
+                ],
+                "source": {
+                    "endpoint": "http://raven.icl.gtri.org/mdi-fhir-server/fhir"
+                },
+                "reason": {
+                    "coding": [
+                        {
+                            "code": "CREM_C_REQ",
+                            "display": "Cremation Clearance Request"
+                        }
+                    ]
+                },
+                "focus": [
+                    {
+                        "reference": "urn:uuid:554670bf-00b6-4349-8655-9e5596bf0687"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:554670bf-00b6-4349-8655-9e5596bf0687",
+            "resource": {
+                "resourceType": "Bundle",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/mdi/StructureDefinition/Bundle-document-mdi-dcr"
+                    ]
+                },
+                "identifier": {
+                    "system": "urn:raven:dcr",
+                    "value": "1ef4fc55-f56e-410f-977b-4bd52ee012eb"
+                },
+                "type": "document",
+                "entry": [
+                    {
+                        "resource": {
+                            "resourceType": "Composition",
+                            "meta": {
+                                "profile": [
+                                    "http://hl7.org/fhir/us/mdi/StructureDefinition/Composition-mdi-dcr"
+                                ]
+                            },
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/us/mdi/CodeSystem/cs-mdi-codes",
+                                        "code": "death-certificate-data-review-doc"
+                                    }
+                                ]
+                            },
+                            "subject": {
+                                "reference": "urn:uuid:695efa5f-45c6-4824-9a52-ec0e6bed3670"
+                            },
+                            "author": [
+                                {
+                                    "reference": "urn:uudi:89e26031-e0d0-4551-b112-b2624dc20720"
+                                }
+                            ],
+                            "section": [
+                                {
+                                    "code": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                                                "code": "DecedentDemographics"
+                                            }
+                                        ]
+                                    },
+                                    "entry": [
+                                        {
+                                            "reference": "urn:uuid:695efa5f-45c6-4824-9a52-ec0e6bed3670"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                                                "code": "DeathInvestigation"
+                                            }
+                                        ]
+                                    },
+                                    "entry": [
+                                        {
+                                            "reference": "urn:uuid:eee702e0-b000-442f-ae79-d2e1c59bffdd"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs",
+                                                "code": "cremation-clearance-info"
+                                            }
+                                        ]
+                                    },
+                                    "entry": [
+                                        {
+                                            "reference": "urn:uuid:e2179080-390c-416a-be6b-90bcce5c75d1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "fullUrl": "urn:uuid:695efa5f-45c6-4824-9a52-ec0e6bed3670",
+                        "resource": {
+                            "resourceType": "Patient",
+                            "id": "ecdf628a-a06e-48f2-8097-76285faa24c9",
+                            "meta": {
+                                "profile": [
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent"
+                                ]
+                            },
+                            "text": {
+                                "status": "generated",
+                                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody><tr><td>Date of birth</td><td><span>10 October 1968</span></td></tr></tbody></table></div>"
+                            },
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                                    "extension": [
+                                        {
+                                            "url": "ombCategory",
+                                            "valueCoding": {
+                                                "system": "urn:oid:2.16.840.1.113883.6.238",
+                                                "code": "2106-3",
+                                                "display": "White"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                                    "extension": [
+                                        {
+                                            "url": "ombCategory",
+                                            "valueCoding": {
+                                                "system": "urn:oid:2.16.840.1.113883.6.238",
+                                                "code": "2028-9",
+                                                "display": "Asian"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                                    "extension": [
+                                        {
+                                            "url": "ombCategory",
+                                            "valueCoding": {
+                                                "system": "urn:oid:2.16.840.1.113883.6.238",
+                                                "code": "2186-5",
+                                                "display": "Not Hispanic or Latino"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ],
+                            "birthDate": "1968-10-10"
+                        }
+                    },
+                    {
+                        "fullUrl": "urn:uuid:eee702e0-b000-442f-ae79-d2e1c59bffdd",
+                        "resource": {
+                            "resourceType": "Observation",
+                            "id": "1b9a2ed7-c7ba-48e6-afef-c9dfa382121b",
+                            "meta": {
+                                "profile": [
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date"
+                                ]
+                            },
+                            "status": "final",
+                            "code": {
+                                "coding": [
+                                    {
+                                        "system": "http://loinc.org",
+                                        "code": "81956-5",
+                                        "display": "Date+time of death"
+                                    }
+                                ]
+                            },
+                            "effectiveDateTime": "2025-04-24T22:36:53-04:00",
+                            "component": [
+                                {
+                                    "code": {
+                                        "coding": [
+                                            {
+                                                "system": "http://loinc.org",
+                                                "code": "80616-6",
+                                                "display": "Date and time pronounced dead [US Standard Certificate of Death]"
+                                            }
+                                        ]
+                                    },
+                                    "valueDateTime": "2022-12-01T12:05:44-05:00"
+                                },
+                                {
+                                    "code": {
+                                        "coding": [
+                                            {
+                                                "system": "http://loinc.org",
+                                                "code": "58332-8",
+                                                "display": "Location of Death"
+                                            }
+                                        ]
+                                    },
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://snomed.info/sct",
+                                                "code": "440081000124100",
+                                                "display": "Death in home"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "fullUrl": "urn:uuid:e2179080-390c-416a-be6b-90bcce5c75d1",
+                        "resource": {
+                            "resourceType": "Organization",
+                            "id": "02c3fa1f-c098-494e-9d74-e2b95562b04b",
+                            "meta": {
+                                "profile": [
+                                    "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home"
+                                ]
+                            },
+                            "name": "Starwars Funeral Home",
+                            "telecom": [
+                                {
+                                    "system": "phone",
+                                    "value": "123-23-2345"
+                                },
+                                {
+                                    "system": "fax",
+                                    "value": "123-24-2345"
+                                }
+                            ],
+                            "address": [
+                                {
+                                    "line": [
+                                        "123 Moon Blvd"
+                                    ],
+                                    "city": "Atlanta",
+                                    "state": "GA",
+                                    "postalCode": "98765",
+                                    "country": "US"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "fullUrl": "urn:uudi:89e26031-e0d0-4551-b112-b2624dc20720",
+                        "resource": {
+                            "resourceType": "Practitioner",
+                            "name": [
+                                {
+                                    "family": "Kenobi",
+                                    "given": [
+                                        "Obiwan"
+                                    ]
+                                }
+                            ],
+                            "telecom": [
+                                {
+                                    "system": "email",
+                                    "value": "obiwan@starwars.funeral.home"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

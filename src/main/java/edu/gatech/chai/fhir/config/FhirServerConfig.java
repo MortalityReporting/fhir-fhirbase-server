@@ -74,7 +74,10 @@ public class FhirServerConfig {
 	@Value("${server.type}")
 	private String serverType;
 
-    @Value("${auth.issuer-url}")
+	@Value("${server.url}")
+	private String serverUrl;
+
+	@Value("${auth.issuer-url}")
     private String authDomain;
 
     @Value("${auth.audience}")
@@ -85,6 +88,7 @@ public class FhirServerConfig {
 		ConfigValues configValues = new ConfigValues();
 		configValues.setServerVersion(this.serverVersion);
 		configValues.setServerType(serverType);
+		configValues.setServerUrl(serverUrl);
 		configValues.setAuthAudience(authAudience);
 		configValues.setAuthDomain(authDomain);
 

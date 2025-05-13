@@ -78,8 +78,9 @@ public class AuthenticationInterceptor {
 
 		logger.debug("[OAuth] Request from " + theRequest.getRemoteAddr());
 
-		if (theRequestDetails.getRestOperationType() == RestOperationTypeEnum.METADATA) {
-			logger.debug("This is METADATA request.");
+		if (theRequestDetails.getRestOperationType() == RestOperationTypeEnum.METADATA ||
+			"OperationDefinition".equals(theRequestDetails.getResourceName())) {
+			logger.debug("This is METADATA or METADATA related request.");
 			return true;
 		}
 
