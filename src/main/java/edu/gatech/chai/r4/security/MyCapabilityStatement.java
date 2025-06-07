@@ -94,8 +94,8 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 			version = "version not available in properties";
 		}
 
-		if (configValues.getServerVersion() != null && !configValues.getServerVersion().isBlank()) {
-			if ("EDRS".equalsIgnoreCase(configValues.getServerVersion())) {
+		if (configValues.getServerType() != null && !configValues.getServerType().isBlank()) {
+			if ("EDRS".equalsIgnoreCase(configValues.getServerType())) {
 				title = "Bluejay FHIR Server";
 				name = "bluejay";
 			} else {
@@ -111,7 +111,7 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
          .getSoftware()
 		 .setName("MDI FHIR Server")
          .setVersion(version)
-         .setReleaseDateElement(new DateTimeType("2025-05-22"));
+         .setReleaseDateElement(new DateTimeType("2025-06-07"));
 
 		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 
