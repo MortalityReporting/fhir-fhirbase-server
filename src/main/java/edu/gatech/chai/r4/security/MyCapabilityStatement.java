@@ -111,7 +111,7 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
          .getSoftware()
 		 .setName("MDI FHIR Server")
          .setVersion(version)
-         .setReleaseDateElement(new DateTimeType("2025-06-07"));
+         .setReleaseDateElement(new DateTimeType("2025-06-18"));
 
 		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 
