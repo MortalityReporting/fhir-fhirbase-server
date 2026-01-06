@@ -111,7 +111,7 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
          .getSoftware()
 		 .setName("MDI FHIR Server")
          .setVersion(version)
-         .setReleaseDateElement(new DateTimeType("2025-12-10"));
+         .setReleaseDateElement(new DateTimeType("2026-01-06"));
 
 		cs.setPublisher("Georgia Tech Research Institute - HEAT");
 
@@ -251,6 +251,9 @@ public class MyCapabilityStatement extends ServerCapabilityStatementProvider {
 					} else if ("death-date".equals(parameter.getName())) {
 						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Death Date"))
 							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(5)));
+					} else if ("manner-of-death".equals(parameter.getName())) {
+						parameter.addExtension(myExtension("urn:gtri:mapi-label", "Manner of Death"))
+							.addExtension(myExtension("urn:gtri:mapi-label-order", new IntegerType(8)));
 					}
 				}
 			}
