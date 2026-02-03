@@ -33,7 +33,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 	<properties>
 		<hapi_stable_version>8.4.0</hapi_stable_version>
-		<fhir-fhirbase>2.2.2</fhir-fhirbase>
+		<fhir-fhirbase>2.2.3</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
