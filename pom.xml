@@ -17,7 +17,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 	<groupId>edu.gatech.chai</groupId>
 	<artifactId>fhir-fhirbase-server</artifactId>
 	<packaging>war</packaging>
-	<version>2.3.0</version>
+	<version>2.3.1</version>
 
 	<name>RESTful Server for FHIRBase</name>
 
@@ -32,8 +32,8 @@ http://www.apache.org/licenses/LICENSE-2.0
 	</repositories>
 
 	<properties>
-		<hapi_stable_version>8.4.0</hapi_stable_version>
-		<fhir-fhirbase>2.3.2</fhir-fhirbase>
+		<hapi_stable_version>8.10.0</hapi_stable_version>
+		<fhir-fhirbase>2.3.3</fhir-fhirbase>
 
 		<!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
@@ -42,15 +42,15 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 		<!-- Dependency Versions -->
 		<derby_version>10.14.2.0</derby_version>
-		<jersey_version>3.0.3</jersey_version>
-		<jetty_version>12.0.17</jetty_version>
-		<jackson_version>2.17.1</jackson_version>
+		<jersey_version>3.1.11</jersey_version>
+		<jetty_version>11.0.26</jetty_version>
+		<jackson_version>2.21.1</jackson_version>
 		<jaxb_api_version>2.3.1</jaxb_api_version>
 		<lucene_version>9.11.1</lucene_version>
 		<maven_assembly_plugin_version>3.3.0</maven_assembly_plugin_version>
 		<maven_license_plugin_version>1.8</maven_license_plugin_version>
-		<spring_version>6.1.21</spring_version>
-		<thymeleaf-version>3.1.2.RELEASE</thymeleaf-version>
+		<spring_version>6.2.18</spring_version>
+		<thymeleaf-version>3.1.5.RELEASE</thymeleaf-version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<ebay_cors_filter_version>1.0.1</ebay_cors_filter_version>
 		<ucum_version>1.0.9</ucum_version>
@@ -375,7 +375,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.12.1</version>
 				<configuration>
-					<release>21</release>
+					<release>25</release>
 				</configuration>
 			</plugin>
 
@@ -407,7 +407,6 @@ http://www.apache.org/licenses/LICENSE-2.0
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>11.0.20</version>
 			</plugin>
 		</plugins>
 	</build>
